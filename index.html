@@ -21,13 +21,9 @@
 html,body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;height:100%;overflow:hidden}
 button,input{font-family:'Outfit',sans-serif;outline:none}
 img{display:block}
-
-/* ── PAGES ── */
 .page{position:fixed;inset:0;bottom:calc(60px + var(--safe-bottom));overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;opacity:1;transition:opacity .2s,transform .2s}
 .page.hidden{opacity:0;pointer-events:none;transform:translateY(8px)}
-
-/* ── HEADER ── */
-.hdr{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(7,7,14,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0}
+.hdr{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(7,7,14,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0}
 .logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:7px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .logo-sub{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:-2px}
 .hdr-right{display:flex;gap:8px;align-items:center}
@@ -37,28 +33,19 @@ img{display:block}
 .cart-dot{position:absolute;top:-5px;right:-5px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#07070E;border-radius:50%;width:18px;height:18px;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;border:2px solid var(--bg)}
 .lang-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:.15s}
 .lang-btn:active{transform:scale(.85)}
-
-/* ── BOTTOM NAV ── */
 .bnav{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;background:rgba(7,7,14,.97);border-top:1px solid var(--border);padding-bottom:var(--safe-bottom)}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;gap:3px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:.15s}
 .nb.on{color:var(--gold)}
 .nb i{font-size:20px;line-height:1}
 .nb span{font-size:9px;letter-spacing:.5px;font-weight:500}
-
-/* ── CHIPS ── */
 .chips{display:flex;gap:7px;padding:12px 14px 6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .chips::-webkit-scrollbar{display:none}
 .chip{white-space:nowrap;padding:7px 14px;border-radius:50px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;transition:.15s}
 .chip.on{background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-weight:700}
-
-/* ── SECTION HEADING ── */
 .sec-h{padding:14px 14px 10px;font-family:'Cormorant Garamond',serif;font-size:20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
-
-/* ── GRID ── */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:2px 12px 16px}
 @media(min-width:460px){.grid{grid-template-columns:repeat(3,1fr)}}
-
 .pcard{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.15s}
 .pcard:active{transform:scale(.97)}
 .pimg-box{height:148px;background:linear-gradient(155deg,#0E0E1E,#090916);display:flex;align-items:center;justify-content:center;padding:10px;position:relative;overflow:hidden}
@@ -80,19 +67,13 @@ img{display:block}
 .qb{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.12s}
 .qb:active{transform:scale(.75)}
 .qn{font-size:13px;font-weight:700;min-width:20px;text-align:center;color:var(--gold2)}
-
-/* ── EMPTY STATE ── */
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 .empty-icon{font-size:54px;margin-bottom:14px;opacity:.3}
-
-/* ── CART ITEMS ── */
 .ci{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--border2)}
 .ci-img{width:50px;height:60px;object-fit:contain;background:var(--card);border-radius:10px;padding:5px;flex-shrink:0}
 .ci-info{flex:1;min-width:0}
 .ci-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ci-price{font-size:12px;color:var(--gold);font-weight:600;margin-top:2px}
-
-/* ── TIP ── */
 .tip-wrap{padding:14px 16px;border-top:1px solid var(--border2)}
 .tip-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
 .tip-row{display:flex;flex-wrap:wrap;gap:7px}
@@ -100,8 +81,6 @@ img{display:block}
 .tip-chip.on{background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-weight:700}
 .tip-input{width:100%;margin-top:10px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--r3);padding:11px 14px;color:var(--text);font-size:14px;display:none;transition:.2s}
 .tip-input:focus{border-color:var(--gold)}
-
-/* ── CART FOOTER ── */
 .cart-foot{padding:14px 16px;background:var(--bg2);border-top:1px solid var(--border)}
 .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
 .total-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
@@ -111,8 +90,7 @@ img{display:block}
 .btn-main:disabled{opacity:.3;cursor:not-allowed}
 .btn-outline{width:100%;background:transparent;border:1.5px solid var(--border);color:var(--sub);border-radius:14px;padding:13px;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;transition:.15s}
 .btn-outline:active{border-color:var(--gold);color:var(--gold)}
-
-/* ── CHECKOUT ── */
+/* CHECKOUT */
 .co-body{padding:14px 16px}
 .co-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
 .co-head{padding:13px 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border2)}
@@ -124,23 +102,43 @@ img{display:block}
 .finput{width:100%;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--r3);padding:12px 14px;color:var(--text);font-size:14px;transition:.2s}
 .finput:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.07)}
 .finput::placeholder{color:var(--muted)}
-.finput.err{border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(224,85,85,.07)!important}
-.ferr{font-size:11px;color:var(--red);margin-top:5px;display:none}
+.finput.err{border-color:var(--red)!important}
+.ferr{font-size:11px;color:var(--red);margin-top:6px;display:none}
 .ferr.on{display:block}
-
-/* Location method buttons */
-.loc-methods{display:flex;gap:8px;margin-bottom:14px}
-.loc-method{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--sub);font-size:11px;font-weight:500;text-align:center}
-.loc-method.on{border-color:var(--gold);background:rgba(201,169,110,.08);color:var(--gold)}
-.loc-method:active{transform:scale(.95)}
-.loc-method i{font-size:22px}
-.loc-panel{display:none}
-.loc-panel.show{display:block}
-.manual-row{display:flex;gap:8px;margin-top:10px}
-.manual-row .finput{flex:1}
-.manual-apply{padding:12px 16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#07070E;border:none;border-radius:var(--r3);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.15s}
-.manual-apply:active{transform:scale(.95)}
-
+/* Method tabs */
+.mtabs{display:flex;gap:8px;margin-bottom:14px}
+.mtab{flex:1;padding:10px 6px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--r2);cursor:pointer;color:var(--muted);font-size:11px;font-weight:600;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s}
+.mtab i{font-size:20px}
+.mtab.on{border-color:var(--gold);background:rgba(201,169,110,.08);color:var(--gold)}
+.mtab:active{transform:scale(.95)}
+.mpanel{display:none}
+.mpanel.show{display:block}
+/* GPS btn */
+.gps-btn{display:flex;align-items:center;gap:10px;width:100%;background:rgba(201,169,110,.07);border:1.5px solid rgba(201,169,110,.25);border-radius:var(--r2);padding:14px 15px;cursor:pointer;color:var(--gold);font-size:13px;font-weight:600;transition:.2s;margin-bottom:10px}
+.gps-btn:active{transform:scale(.97)}
+.gps-status{font-size:12px;padding:9px 12px;border-radius:9px;display:none;margin-bottom:10px}
+.gps-status.ok{display:block;background:rgba(76,175,125,.1);color:var(--green);border:1px solid rgba(76,175,125,.2)}
+.gps-status.fail{display:block;background:rgba(224,85,85,.08);color:var(--red);border:1px solid rgba(224,85,85,.18)}
+/* Type chips */
+.type-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.type-chip{padding:8px 13px;border-radius:50px;border:1px solid var(--border2);background:transparent;color:var(--sub);font-size:12px;cursor:pointer;transition:.15s}
+.type-chip.on{background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-weight:600}
+/* Field rows */
+.frow{display:flex;gap:8px;margin-bottom:10px}
+.frow>div{flex:1;min-width:0}
+/* Saved list */
+.sai{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:12px 13px;cursor:pointer;margin-bottom:8px;transition:.15s}
+.sai:active,.sai.on{border-color:var(--gold);background:rgba(201,169,110,.06)}
+.sai-info{flex:1;min-width:0}
+.sai-label{font-size:13px;font-weight:600;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sai-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Office pill */
+.opill{font-size:11px;font-weight:600;color:var(--gold);background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.2);padding:8px 12px;border-radius:8px;margin-top:10px;display:none}
+.opill.on{display:block}
+/* Save toggle */
+.stoggle{display:flex;align-items:center;gap:10px;margin-top:12px;cursor:pointer}
+.sbox{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;font-size:11px;font-weight:700;color:transparent}
+.sbox.on{background:var(--gold);border-color:var(--gold);color:#07070E}
 /* Summary */
 .sum-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin:0 16px 14px}
 .sum-title{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold2);margin-bottom:10px}
@@ -148,8 +146,7 @@ img{display:block}
 .sum-div{height:1px;background:var(--border2);margin:8px 0}
 .sum-total{display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:var(--gold2)}
 .co-foot{padding:0 16px 16px}
-
-/* ── ORDER CARDS ── */
+/* Orders */
 .ocard{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin:0 14px 10px}
 .ocard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
 .o-id{font-size:12px;font-weight:700;color:var(--gold2)}
@@ -161,37 +158,30 @@ img{display:block}
 .sx{background:rgba(224,85,85,.1);color:var(--red);border:1px solid rgba(224,85,85,.2)}
 .o-items{font-size:12px;color:var(--sub);line-height:1.75;border-top:1px solid var(--border2);padding-top:8px;margin-top:4px}
 .o-total{font-size:14px;font-weight:700;color:var(--gold2);margin-top:6px}
-
-/* ── PROFILE ── */
+/* Profile */
 .profile-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin:14px}
 .profile-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;font-family:'Cormorant Garamond',serif;color:#07070E;font-weight:700}
 .profile-name{text-align:center;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2)}
-.profile-stat{display:flex;gap:0;border-top:1px solid var(--border2);margin-top:14px}
+.profile-stat{display:flex;border-top:1px solid var(--border2);margin-top:14px}
 .ps{flex:1;text-align:center;padding:12px 6px;border-right:1px solid var(--border2)}
 .ps:last-child{border-right:none}
 .ps-n{font-size:20px;font-weight:700;color:var(--gold2)}
 .ps-l{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:2px}
-
-/* ── TOAST ── */
+/* Toast */
 .toast{position:fixed;bottom:calc(68px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(60px);background:var(--card2);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:50px;font-size:12px;white-space:nowrap;z-index:999;transition:transform .28s cubic-bezier(.34,1.06,.64,1);pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.55)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.ok{border-color:var(--green);color:#90e8b8}
 .toast.err{border-color:var(--red);color:#f0a0a0}
-.saved-addr-btn{display:flex;align-items:center;gap:8px;width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r3);padding:10px 13px;cursor:pointer;margin-bottom:7px;transition:.15s;color:var(--text)}
-.saved-addr-btn:active{border-color:var(--gold)}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ CATALOG PAGE ═══════════ -->
+<!-- CATALOG -->
 <div id="pg-catalog" class="page">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub">Premium Spirits</div></div>
     <div class="hdr-right">
-      <div class="cart-pill" onclick="go('cart')">
-        🛒 <span class="cart-txt" id="hdr-tot">0 AED</span>
-        <span class="cart-dot" id="hdr-dot">0</span>
-      </div>
+      <div class="cart-pill" onclick="go('cart')">🛒 <span class="cart-txt" id="hdr-tot">0 AED</span><span class="cart-dot" id="hdr-dot">0</span></div>
       <button class="lang-btn" onclick="flipLang()" id="lbtn">🇷🇺</button>
     </div>
   </div>
@@ -200,7 +190,7 @@ img{display:block}
   <div class="grid" id="p-grid"></div>
 </div>
 
-<!-- ═══════════ CART PAGE ═══════════ -->
+<!-- CART -->
 <div id="pg-cart" class="page hidden">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub" id="ls-cart">Корзина</div></div>
@@ -216,17 +206,14 @@ img{display:block}
   </div>
   <div id="cart-foot" style="display:none">
     <div class="cart-foot">
-      <div class="total-row">
-        <span class="total-lbl" id="tot-lbl">ИТОГО</span>
-        <span class="total-val"><span id="tot-n">0</span> AED</span>
-      </div>
+      <div class="total-row"><span class="total-lbl" id="tot-lbl">ИТОГО</span><span class="total-val"><span id="tot-n">0</span> AED</span></div>
       <button class="btn-main" id="co-btn" onclick="go('checkout')">Оформить заказ →</button>
       <button class="btn-outline" id="clear-btn" onclick="clearCart()">🗑 Очистить корзину</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ CHECKOUT PAGE ═══════════ -->
+<!-- CHECKOUT -->
 <div id="pg-checkout" class="page hidden">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub" id="ls-co">Оформление</div></div>
@@ -234,109 +221,83 @@ img{display:block}
   </div>
   <div class="co-body">
 
-    <!-- Step 1: Location -->
+    <!-- Step 1: Delivery Address -->
     <div class="co-card">
       <div class="co-head">
         <div class="co-num" id="n1">1</div>
-        <div class="co-title" id="ct1">Геолокация</div>
+        <div class="co-title" id="ct1">Адрес доставки</div>
       </div>
       <div class="co-inner">
-
-        <!-- 3 method buttons -->
-        <div class="loc-methods">
-          <button class="loc-method" id="lm-saved" onclick="switchLocMethod('saved')">
-            <i>⭐</i><span id="lm-saved-lbl">Сохранённые</span>
-          </button>
-          <button class="loc-method" id="lm-gps" onclick="switchLocMethod('gps')">
-            <i>📍</i><span id="lm-gps-lbl">GPS</span>
-          </button>
-          <button class="loc-method" id="lm-manual" onclick="switchLocMethod('manual')">
-            <i>✏️</i><span id="lm-manual-lbl">Вручную</span>
-          </button>
+        <!-- Method tabs -->
+        <div class="mtabs">
+          <button class="mtab on" id="mtab-gps" onclick="switchMethod('gps')"><i>📍</i><span id="mtl-gps">По геолокации</span></button>
+          <button class="mtab" id="mtab-manual" onclick="switchMethod('manual')"><i>✏️</i><span id="mtl-manual">Вручную</span></button>
+          <button class="mtab" id="mtab-saved" onclick="switchMethod('saved')"><i>⭐</i><span id="mtl-saved">Сохранённые</span></button>
         </div>
 
-        <!-- Panel: Saved addresses -->
-        <div class="loc-panel" id="panel-saved">
-          <div id="saved-addrs-list-co"></div>
-          <div id="saved-addrs-empty" style="display:none;font-size:12px;color:var(--muted);padding:10px 0">Нет сохранённых адресов</div>
+        <!-- GPS panel -->
+        <div class="mpanel show" id="mpanel-gps">
+          <button class="gps-btn" onclick="grabGPS()" id="gps-btn"><span style="font-size:22px">📍</span><span id="gps-lbl">Поделиться геолокацией</span></button>
+          <div class="gps-status" id="gps-status"></div>
+          <div id="gps-extra" style="display:none">
+            <label class="flabel" id="lbl-type-gps">ТИП АДРЕСА</label>
+            <div class="type-chips" id="tchips-gps"></div>
+            <div id="tfields-gps"></div>
+          </div>
         </div>
 
-        <!-- Panel: GPS -->
-        <div class="loc-panel" id="panel-gps">
-          <button class="loc-btn" onclick="grabLocation()" id="loc-btn">
-            <span class="li">📍</span>
-            <span id="loc-btn-txt">Нажмите чтобы определить местоположение</span>
-          </button>
-          <div class="loc-state" id="loc-state"></div>
+        <!-- Manual panel -->
+        <div class="mpanel" id="mpanel-manual">
+          <label class="flabel" id="lbl-street">УЛИЦА / РАЙОН</label>
+          <input class="finput" id="man-street" type="text" style="margin-bottom:12px" placeholder="ул. Ленина / район Марина">
+          <label class="flabel" id="lbl-type-man">ТИП АДРЕСА</label>
+          <div class="type-chips" id="tchips-man"></div>
+          <div id="tfields-man"></div>
         </div>
 
-        <!-- Panel: Manual -->
-        <div class="loc-panel" id="panel-manual">
-          <label class="flabel" style="margin-bottom:6px" id="manual-lbl">ВВЕДИТЕ АДРЕС ВРУЧНУЮ</label>
-          <input class="finput" id="manual-addr-in" type="text" placeholder="ул. Ленина, д. 5, кв. 12">
-          <label class="flabel" style="margin-top:10px;margin-bottom:6px" id="manual-desc-lbl">ОПИСАНИЕ / ОРИЕНТИР (опционально)</label>
-          <input class="finput" id="manual-desc-in" type="text" placeholder="Рядом с Лукойлом, 3 этаж...">
-          <button class="manual-apply" style="width:100%;margin-top:10px" onclick="applyManualLocation()" id="manual-apply-btn">Применить ✓</button>
+        <!-- Saved panel -->
+        <div class="mpanel" id="mpanel-saved">
+          <div id="saved-list"></div>
+          <div id="saved-empty" style="display:none;text-align:center;padding:16px 0;font-size:12px;color:var(--muted)"></div>
         </div>
 
-        <div class="office-badge" id="office-badge"></div>
+        <div class="opill" id="opill"></div>
+        <div class="ferr" id="addr-err"></div>
+
+        <!-- Save toggle -->
+        <div class="stoggle" onclick="toggleSave()" id="save-wrap">
+          <div class="sbox" id="sbox"></div>
+          <span style="font-size:12px;color:var(--sub)" id="save-lbl">Сохранить этот адрес</span>
+        </div>
+        <input class="finput" id="save-name" type="text" style="display:none;margin-top:8px">
       </div>
     </div>
 
-    <!-- Step 2: Address -->
+    <!-- Step 2: Phone -->
     <div class="co-card">
       <div class="co-head">
         <div class="co-num" id="n2">2</div>
-        <div class="co-title" id="ct2">Адрес доставки</div>
-      </div>
-      <div class="co-inner">
-        <label class="flabel" id="addr-lbl">УЛИЦА, ДОМ, КВАРТИРА / ОФИС</label>
-        <input class="finput" id="addr-in" type="text" placeholder="ул. Ленина, д. 5, кв. 12" oninput="clearErr('addr')">
-        <div class="ferr" id="addr-err"></div>
-        <!-- Save address toggle -->
-        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;cursor:pointer" onclick="toggleSaveAddr()">
-          <div class="save-addr-chk" id="save-addr-chk" style="width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s"></div>
-          <span style="font-size:12px;color:var(--sub)" id="save-addr-lbl">Сохранить этот адрес</span>
-        </div>
-        <input class="finput" id="addr-label-in" type="text" placeholder="Название (Дом, Офис...)" style="display:none;margin-top:8px">
-      </div>
-    </div>
-
-    <!-- Step 3: Phone -->
-    <div class="co-card">
-      <div class="co-head">
-        <div class="co-num" id="n3">3</div>
-        <div class="co-title" id="ct3">Номер телефона</div>
+        <div class="co-title" id="ct2">Номер телефона</div>
       </div>
       <div class="co-inner">
         <label class="flabel" id="phone-lbl">ТОЛЬКО ЦИФРЫ, 10–15 ЗНАКОВ</label>
-        <input class="finput" id="phone-in" type="tel" inputmode="numeric" placeholder="79001234567" oninput="clearErr('phone')">
+        <input class="finput" id="phone-in" type="tel" inputmode="numeric" placeholder="971501234567" oninput="clearFerr('phone')">
         <div class="ferr" id="phone-err"></div>
       </div>
     </div>
-
   </div>
 
-  <!-- Summary -->
-  <div class="sum-card" id="sum-card">
+  <div class="sum-card">
     <div class="sum-title" id="sum-title">Ваш заказ</div>
     <div id="sum-items"></div>
     <div class="sum-div"></div>
-    <div class="sum-line" id="sum-tip-row" style="display:none">
-      <span id="sum-tip-lbl">Чаевые</span><span id="sum-tip-val">0 AED</span>
-    </div>
-    <div class="sum-total">
-      <span id="sum-tot-lbl">Итого</span>
-      <span id="sum-tot-val">0 AED</span>
-    </div>
+    <div class="sum-line" id="sum-tip-row" style="display:none"><span id="sum-tip-lbl">Чаевые</span><span id="sum-tip-val">0 AED</span></div>
+    <div class="sum-total"><span id="sum-tot-lbl">Итого</span><span id="sum-tot-val">0 AED</span></div>
   </div>
-
-  <div class="co-foot">
-    <button class="btn-main" id="place-btn" onclick="placeOrder()">✅ Подтвердить заказ</button>
-  </div>
+  <div class="co-foot"><button class="btn-main" id="place-btn" onclick="placeOrder()">✅ Подтвердить заказ</button></div>
 </div>
 
-<!-- ═══════════ ORDERS PAGE ═══════════ -->
+<!-- ORDERS -->
 <div id="pg-orders" class="page hidden">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub" id="ls-ord">История</div></div>
@@ -346,7 +307,7 @@ img{display:block}
   <div id="orders-list"></div>
 </div>
 
-<!-- ═══════════ PROFILE PAGE ═══════════ -->
+<!-- PROFILE -->
 <div id="pg-profile" class="page hidden">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub" id="ls-prof">Профиль</div></div>
@@ -362,8 +323,8 @@ img{display:block}
     </div>
   </div>
   <div style="padding:0 14px 14px">
-    <div class="sec-h" id="sh-saved-addr">Сохранённые адреса</div>
-    <div id="profile-addrs-list"></div>
+    <div class="sec-h" id="sh-saved">Сохранённые адреса</div>
+    <div id="prof-saved"></div>
   </div>
   <div style="padding:0 14px 14px">
     <div class="sec-h" id="sh-active">Активные заказы</div>
@@ -371,652 +332,482 @@ img{display:block}
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- NAV -->
 <div class="bnav">
-  <button class="nb on" id="nb-catalog" onclick="go('catalog')">
-    <i>🍾</i><span id="nbl-cat">Каталог</span>
-  </button>
-  <button class="nb" id="nb-cart" onclick="go('cart')">
-    <i>🛒</i><span id="nbl-cart">Корзина</span>
-  </button>
-  <button class="nb" id="nb-checkout" onclick="go('checkout');buildSummary()">
-    <i>📋</i><span id="nbl-co">Заказ</span>
-  </button>
-  <button class="nb" id="nb-orders" onclick="go('orders')">
-    <i>📦</i><span id="nbl-ord">История</span>
-  </button>
-  <button class="nb" id="nb-profile" onclick="go('profile');buildProfile()">
-    <i>👤</i><span id="nbl-prof">Профиль</span>
-  </button>
+  <button class="nb on" id="nb-catalog" onclick="go('catalog')"><i>🍾</i><span id="nbl-cat">Каталог</span></button>
+  <button class="nb" id="nb-cart" onclick="go('cart')"><i>🛒</i><span id="nbl-cart">Корзина</span></button>
+  <button class="nb" id="nb-checkout" onclick="go('checkout');buildSummary()"><i>📋</i><span id="nbl-co">Заказ</span></button>
+  <button class="nb" id="nb-orders" onclick="go('orders')"><i>📦</i><span id="nbl-ord">История</span></button>
+  <button class="nb" id="nb-profile" onclick="go('profile');buildProfile()"><i>👤</i><span id="nbl-prof">Профиль</span></button>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════
-// OFFICES + HAVERSINE ROUTING
-// ══════════════════════════════════════
+// ── OFFICES ───────────────────────────────────────────────────────────────────
 const OFFICES=[
-  {id:"office_central", name:"Ambar — Центр",   lat:55.7558, lon:37.6173},
-  {id:"office_north",   name:"Ambar — Север",   lat:55.8200, lon:37.5900},
-  {id:"office_south",   name:"Ambar — Юг",      lat:55.6900, lon:37.6400},
+  {id:'office_central',name:'Ambar Central',lat:25.0969,lon:55.1587},
+  {id:'office_north',  name:'Ambar North',  lat:25.0474,lon:55.2386},
 ];
+function hav(a,b,c,d){const R=6371,dl=(c-a)*Math.PI/180,dm=(d-b)*Math.PI/180,e=Math.sin(dl/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dm/2)**2;return R*2*Math.atan2(Math.sqrt(e),Math.sqrt(1-e));}
+function nearestOffice(lat,lon){return OFFICES.reduce((b,o)=>{const d=hav(lat,lon,o.lat,o.lon);return(!b||d<b._d)?{...o,_d:d}:b;},null);}
 
-function haversine(a,b,c,d){
-  const R=6371,dl=(c-a)*Math.PI/180,dm=(d-b)*Math.PI/180;
-  const e=Math.sin(dl/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dm/2)**2;
-  return R*2*Math.atan2(Math.sqrt(e),Math.sqrt(1-e));
-}
-
-function nearestOffice(lat,lon){
-  return OFFICES.reduce((best,o)=>{
-    const d=haversine(lat,lon,o.lat,o.lon);
-    return(!best||d<best._d)?{...o,_d:d}:best;
-  },null);
-}
-
-// ══════════════════════════════════════
-// PRODUCTS
-// ══════════════════════════════════════
-// ══════════════════════════════════════
-// PRODUCTS — loaded from catalog.json
-// ══════════════════════════════════════
-let P = [];
-
+// ── CATALOG ───────────────────────────────────────────────────────────────────
+let P=[];
 async function loadCatalog(){
-  try {
-    const res = await fetch('https://nakhundov02.github.io/ambarwebpage/catalog.json?t='+Date.now());
-    P = await res.json();
-  } catch(e) {
-    console.warn('catalog.json load failed:', e);
-  }
-  buildChips(); renderGrid();
+  try{
+    const r=await fetch('https://nakhundov02.github.io/ambarwebpage/catalog.json?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    P=await r.json();
+  }catch(e){console.warn('Catalog failed:',e);}
+  buildChips();renderGrid();
 }
-
 const TIP_OPTS=[0,50,100,200,500];
 
-// ══════════════════════════════════════
-// SAVED ADDRESSES (localStorage per user)
-// ══════════════════════════════════════
-function loadSavedAddresses(){
-  return JSON.parse(localStorage.getItem("ambar_addresses")||"[]");
-}
-function persistAddresses(arr){
-  localStorage.setItem("ambar_addresses", JSON.stringify(arr.slice(0,5)));
-}
-function saveAddressLocally(address, label, lat, lon, office_id, office_name){
-  const arr = loadSavedAddresses();
-  const exists = arr.some(a=>a.address.trim().toLowerCase()===address.trim().toLowerCase());
-  if(!exists){
-    arr.unshift({label:label||address, address, lat:lat||0, lon:lon||0, office_id, office_name});
-    persistAddresses(arr);
-  }
-}
-// ══════════════════════════════════════
-// LOCATION METHOD SWITCHER
-// ══════════════════════════════════════
-let curLocMethod = 'gps';
-function switchLocMethod(m){
-  curLocMethod = m;
-  ['saved','gps','manual'].forEach(id=>{
-    el('lm-'+id)?.classList.toggle('on', id===m);
-    el('panel-'+id)?.classList.toggle('show', id===m);
-  });
-  if(m==='saved') renderSavedAddressesCheckout();
-}
+// ── ADDRESS TYPES (RU / EN) ────────────────────────────────────────────────────
+const TYPES={
+  ru:[
+    {id:'home',  icon:'🏠',lbl:'Дом',     fields:[{k:'building',l:'ДОМ / ВИЛЛА',p:'д. 5 / Villa 5'},{k:'apt',l:'КВАРТИРА',p:'кв. 12'}]},
+    {id:'apt',   icon:'🏢',lbl:'Квартира',fields:[{k:'complex',l:'ЖК / ЗДАНИЕ',p:'ЖК Солнечный'},{k:'entrance',l:'ПОДЪЕЗД',p:'2'},{k:'floor',l:'ЭТАЖ',p:'7'},{k:'apt',l:'КВАРТИРА',p:'42'}]},
+    {id:'office',icon:'💼',lbl:'Офис',    fields:[{k:'building',l:'БЦ / ЗДАНИЕ',p:'БЦ Москва-Сити'},{k:'floor',l:'ЭТАЖ',p:'12'},{k:'room',l:'ОФИС',p:'305'}]},
+    {id:'other', icon:'📌',lbl:'Другое',  fields:[{k:'details',l:'ОПИСАНИЕ / ОРИЕНТИР',p:'Любые детали...'}]},
+  ],
+  en:[
+    {id:'home',  icon:'🏠',lbl:'House',    fields:[{k:'building',l:'BUILDING / VILLA',p:'Villa 5'},{k:'apt',l:'APARTMENT',p:'Apt 12'}]},
+    {id:'apt',   icon:'🏢',lbl:'Apartment',fields:[{k:'complex',l:'COMPLEX / TOWER',p:'Marina Heights'},{k:'entrance',l:'ENTRANCE',p:'B'},{k:'floor',l:'FLOOR',p:'7'},{k:'apt',l:'APT',p:'702'}]},
+    {id:'office',icon:'💼',lbl:'Office',   fields:[{k:'building',l:'BUILDING / TOWER',p:'DIFC Gate'},{k:'floor',l:'FLOOR',p:'12'},{k:'room',l:'OFFICE',p:'305'}]},
+    {id:'other', icon:'📌',lbl:'Other',    fields:[{k:'details',l:'DESCRIPTION / LANDMARK',p:'Any details...'}]},
+  ],
+};
 
-function renderSavedAddressesCheckout(){
-  const arr = loadSavedAddresses();
-  const list = el('saved-addrs-list-co');
-  const empty = el('saved-addrs-empty');
-  if(!arr.length){
-    list.innerHTML=''; empty.style.display='block'; return;
-  }
-  empty.style.display='none';
-  list.innerHTML = arr.map((a,i)=>`
-    <button class="saved-addr-btn" onclick="pickSavedAddress(${i})">
-      <span style="font-size:20px">📍</span>
-      <div style="flex:1;min-width:0;text-align:left">
-        <div style="font-size:13px;font-weight:600;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label||a.address}</div>
-        <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label?a.address:''}</div>
-      </div>
-      <span style="color:var(--gold);font-size:16px">›</span>
-    </button>
-  `).join('');
-}
-
-function pickSavedAddress(i){
-  const arr=loadSavedAddresses(); const a=arr[i]; if(!a) return;
-  el('addr-in').value=a.address; clearErr('addr');
-  if(a.lat&&a.lon){ applyLocResult(a.lat, a.lon, a.office_id, a.office_name); }
-  else { markLocDone(); }
-  showToast((lang==='ru'?'Адрес выбран':'Address selected')+': '+(a.label||a.address),'ok');
-}
-
-function applyManualLocation(){
-  const addr = el('manual-addr-in').value.trim();
-  const desc = el('manual-desc-in').value.trim();
-  if(!addr){ showToast(lang==='ru'?'Введите адрес':'Enter address','err'); return; }
-  const full = desc ? addr+' — '+desc : addr;
-  el('addr-in').value = full; clearErr('addr');
-  locInfo = {lat:0, lon:0, office_id:'office_central', office_name:'Ambar'};
-  markLocDone();
-  showToast(lang==='ru'?'Адрес применён ✓':'Address applied ✓','ok');
-}
-
-function markLocDone(){
-  el('office-badge').className='office-badge on';
-  el('office-badge').innerHTML = locInfo?.office_name
-    ? `🏢 ${locInfo.office_name}`
-    : (lang==='ru'?'✅ Адрес установлен':'✅ Address set');
-  el('n1').className='co-num done'; el('n1').textContent='✓';
-}
-
-function renderSavedAddresses(){ renderSavedAddressesCheckout(); }
-
-function deleteAddress(i){
-  const arr=loadSavedAddresses(); arr.splice(i,1); persistAddresses(arr);
-  renderSavedAddressesCheckout(); buildProfile();
-  showToast(lang==='ru'?'Адрес удалён':'Address removed','ok');
-}
-
-let saveAddrFlag=false;
-function toggleSaveAddr(){
-  saveAddrFlag=!saveAddrFlag;
-  el("save-addr-chk").className="save-addr-chk"+(saveAddrFlag?" on":"");
-  el("addr-label-in").style.display=saveAddrFlag?"block":"none";
-}
-
-// ══════════════════════════════════════
-// TRANSLATIONS
-// ══════════════════════════════════════
+// ── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const TX={
-ru:{
-  catalog:"Каталог",cart:"Корзина",co:"Заказ",orders:"История",profile:"Профиль",
-  all:"Все",total:"ИТОГО",tip:"ЧАЕВЫЕ",noTip:"Без чаевых",customTip:"✏️ Своя",
-  coBtn:"Оформить заказ →",clearCart:"🗑 Очистить корзину",
-  ct1:"Геолокация",ct2:"Адрес доставки",ct3:"Номер телефона",
-  locBtn:"📍 Нажмите для определения местоположения",
-  locGetting:"⏳ Определяем...",
-  locOk:"✅ Местоположение определено",
-  locFail:"⚠️ Не удалось получить геолокацию. Продолжите без неё.",
-  officeLabel:"🏢 Ближайший офис:",
-  addrLbl:"УЛИЦА, ДОМ, КВАРТИРА / ОФИС",
-  addrPh:"ул. Ленина, д. 5, кв. 12",
-  addrErr:"❌ Адрес слишком короткий — минимум 10 символов",
-  phoneLbl:"ТОЛЬКО ЦИФРЫ, 10–15 ЗНАКОВ",
-  phonePh:"79001234567",
-  phoneErr:"❌ Введите корректный номер телефона (10–15 цифр, только цифры)",
-  sumTitle:"Ваш заказ",tipLbl:"Чаевые",totLbl:"Итого",
-  placeBtn:"✅ Подтвердить заказ",
-  noOrders:"Заказов пока нет",noActive:"Нет активных заказов",
-  stP:"🟡 Ожидает",stC:"🟢 Принят",stD:"✅ Доставлен",stX:"❌ Отменён",
-  added:"Добавлено в корзину",emptyCart:"Корзина пуста — добавьте товары из каталога",
-  placed:"✅ Заказ оформлен! Ожидайте звонка.",
-  activeOrders:"Активные заказы",oos:"НЕТ",
-  statOrders:"ЗАКАЗОВ",statActive:"АКТИВНЫХ",statSpent:"ПОТРАЧЕНО",
+ru:{catalog:'Каталог',cart:'Корзина',co:'Заказ',orders:'История',profile:'Профиль',
+  all:'Все',total:'ИТОГО',tip:'ЧАЕВЫЕ',noTip:'Без чаевых',customTip:'✏️ Своя',
+  coBtn:'Оформить заказ →',clearCart:'🗑 Очистить корзину',
+  ct1:'Адрес доставки',ct2:'Номер телефона',
+  mtabGps:'По геолокации',mtabManual:'Вручную',mtabSaved:'Сохранённые',
+  gpsBtn:'📍 Поделиться геолокацией',gpsBtnLoading:'⏳ Определяем...',
+  gpsOk:'✅ Геолокация получена — выберите тип адреса',
+  gpsFail:'⚠️ Не удалось получить геолокацию. Попробуйте вручную.',
+  lblTypeGps:'ТИП АДРЕСА',lblTypeMan:'ТИП АДРЕСА',lblStreet:'УЛИЦА / РАЙОН',
+  savedEmpty:'Нет сохранённых адресов',
+  saveLbl:'Сохранить этот адрес',saveNamePh:'Название (Дом, Офис...)',
+  phoneLbl:'ТОЛЬКО ЦИФРЫ, 10–15 ЗНАКОВ',
+  phoneErr:'❌ Введите корректный номер (10–15 цифр)',
+  addrErr:'❌ Укажите адрес доставки',typeErr:'❌ Выберите тип и заполните детали',
+  sumTitle:'Ваш заказ',tipLbl:'Чаевые',totLbl:'Итого',placeBtn:'✅ Подтвердить заказ',
+  noOrders:'Заказов пока нет',noActive:'Нет активных заказов',
+  stP:'🟡 Ожидает',stC:'🟢 Принят',stD:'✅ Доставлен',stX:'❌ Отменён',
+  added:'Добавлено',emptyCart:'Корзина пуста',placed:'✅ Заказ оформлен! Ожидайте звонка.',
+  activeOrders:'Активные заказы',oos:'НЕТ',
+  statOrders:'ЗАКАЗОВ',statActive:'АКТИВНЫХ',statSpent:'ПОТРАЧЕНО',
+  savedAddrs:'Сохранённые адреса',noSaved:'Нет сохранённых адресов',
+  addrDeleted:'Адрес удалён',addrSaved:'Адрес сохранён',
+  nearOffice:'Ближайший офис',addrPicked:'Адрес выбран',
 },
-en:{
-  catalog:"Catalog",cart:"Cart",co:"Order",orders:"History",profile:"Profile",
-  all:"All",total:"TOTAL",tip:"TIP",noTip:"No tip",customTip:"✏️ Custom",
-  coBtn:"Checkout →",clearCart:"🗑 Clear cart",
-  ct1:"Geolocation",ct2:"Delivery address",ct3:"Phone number",
-  locBtn:"📍 Tap to share location",
-  locGetting:"⏳ Getting location...",
-  locOk:"✅ Location received",
-  locFail:"⚠️ Could not get location. Continue without it.",
-  officeLabel:"🏢 Nearest office:",
-  addrLbl:"STREET, BUILDING, APARTMENT",
-  addrPh:"123 Example St, Apt 12",
-  addrErr:"❌ Address too short — minimum 10 characters",
-  phoneLbl:"DIGITS ONLY, 10–15 DIGITS",
-  phonePh:"79001234567",
-  phoneErr:"❌ Enter a valid phone number (10–15 digits, numbers only)",
-  sumTitle:"Your order",tipLbl:"Tip",totLbl:"Total",
-  placeBtn:"✅ Confirm order",
-  noOrders:"No orders yet",noActive:"No active orders",
-  stP:"🟡 Pending",stC:"🟢 Confirmed",stD:"✅ Delivered",stX:"❌ Cancelled",
-  added:"Added to cart",emptyCart:"Cart is empty — add items from the catalog",
-  placed:"✅ Order placed! Our operator will call you.",
-  activeOrders:"Active orders",oos:"N/A",
-  statOrders:"ORDERS",statActive:"ACTIVE",statSpent:"SPENT AED",
+en:{catalog:'Catalog',cart:'Cart',co:'Order',orders:'History',profile:'Profile',
+  all:'All',total:'TOTAL',tip:'TIP',noTip:'No tip',customTip:'✏️ Custom',
+  coBtn:'Checkout →',clearCart:'🗑 Clear cart',
+  ct1:'Delivery Address',ct2:'Phone Number',
+  mtabGps:'Share Location',mtabManual:'Manual',mtabSaved:'Saved',
+  gpsBtn:'📍 Share my location',gpsBtnLoading:'⏳ Getting location...',
+  gpsOk:'✅ Location received — select address type',
+  gpsFail:'⚠️ Could not get location. Try manual.',
+  lblTypeGps:'ADDRESS TYPE',lblTypeMan:'ADDRESS TYPE',lblStreet:'STREET / AREA',
+  savedEmpty:'No saved addresses yet',
+  saveLbl:'Save this address',saveNamePh:'Label (Home, Office...)',
+  phoneLbl:'DIGITS ONLY, 10–15 DIGITS',
+  phoneErr:'❌ Enter a valid phone number (10–15 digits)',
+  addrErr:'❌ Please enter a delivery address',typeErr:'❌ Select a type and fill details',
+  sumTitle:'Your order',tipLbl:'Tip',totLbl:'Total',placeBtn:'✅ Confirm order',
+  noOrders:'No orders yet',noActive:'No active orders',
+  stP:'🟡 Pending',stC:'🟢 Confirmed',stD:'✅ Delivered',stX:'❌ Cancelled',
+  added:'Added',emptyCart:'Cart is empty',placed:'✅ Order placed! We\'ll call you.',
+  activeOrders:'Active orders',oos:'N/A',
+  statOrders:'ORDERS',statActive:'ACTIVE',statSpent:'SPENT AED',
+  savedAddrs:'Saved addresses',noSaved:'No saved addresses',
+  addrDeleted:'Address removed',addrSaved:'Address saved',
+  nearOffice:'Nearest office',addrPicked:'Address selected',
 },
 };
 
-// ══════════════════════════════════════
-// STATE
-// ══════════════════════════════════════
-let lang="ru", cart={}, catF="all", tip=0, locInfo=null;
-let orders=JSON.parse(localStorage.getItem("ambar_orders")||"[]");
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let lang='ru',cart={},catF='all',tip=0,locInfo=null;
+let curMethod='gps',selTypeGps=null,selTypeMan=null,saveFlag=false;
+let orders=JSON.parse(localStorage.getItem('ambar_orders')||'[]');
 const tg=window.Telegram?.WebApp||null;
+let curPg='catalog';
 
-// ══════════════════════════════════════
-// BOOT
-// ══════════════════════════════════════
-window.addEventListener("DOMContentLoaded",()=>{
-  if(tg){tg.ready();tg.expand();tg.setHeaderColor&&tg.setHeaderColor("#07070E");tg.setBackgroundColor&&tg.setBackgroundColor("#07070E");}
-  buildTips();renderOrders();applyLang();
-  loadCatalog();
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  if(tg){tg.ready();tg.expand();tg.setHeaderColor&&tg.setHeaderColor('#07070E');tg.setBackgroundColor&&tg.setBackgroundColor('#07070E');}
+  buildTips();renderOrders();applyLang();loadCatalog();
 });
 
-// ══════════════════════════════════════
-// LANG
-// ══════════════════════════════════════
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function t(k){return TX[lang][k]||TX.ru[k]||k;}
-function flipLang(){
-  lang=lang==="ru"?"en":"ru";
-  document.querySelectorAll(".lang-btn").forEach(b=>b.textContent=lang==="ru"?"🇷🇺":"🇬🇧");
-  applyLang();buildChips();renderGrid();buildTips();renderOrders();renderCart();buildSummary();buildProfile();
-}
-function applyLang(){
-  const f=lang==="ru"?"🇷🇺":"🇬🇧";
-  document.querySelectorAll(".lang-btn").forEach(b=>b.textContent=f);
-  set("sh-catalog",t("catalog")); set("ls-cart",t("cart")); set("ls-co",t("co"));
-  set("ls-ord",t("orders")); set("ls-prof",t("profile"));
-  set("sh-orders",t("orders")); set("sh-active",t("activeOrders"));
-  set("nbl-cat",t("catalog")); set("nbl-cart",t("cart")); set("nbl-co",t("co"));
-  set("nbl-ord",t("orders")); set("nbl-prof",t("profile"));
-  set("tot-lbl",t("total")); set("co-btn",t("coBtn")); set("clear-btn",t("clearCart"));
-  set("ct1",t("ct1")); set("ct2",t("ct2")); set("ct3",t("ct3"));
-  set("loc-btn-txt",t("locBtn"));
-  set("addr-lbl",t("addrLbl")); el("addr-in").placeholder=t("addrPh");
-  set("phone-lbl",t("phoneLbl")); el("phone-in").placeholder=t("phonePh");
-  set("sum-title",t("sumTitle")); set("sum-tip-lbl",t("tipLbl")); set("sum-tot-lbl",t("totLbl"));
-  set("place-btn",t("placeBtn")); set("tip-lbl",t("tip"));
-  el("tip-input").placeholder=lang==="ru"?"Введите сумму...":"Enter amount...";
-}
 function el(id){return document.getElementById(id);}
 function set(id,v){const e=el(id);if(e)e.textContent=v;}
+function clearFerr(f){el(f+'-in')?.classList.remove('err');const e=el(f+'-err');if(e){e.classList.remove('on');e.textContent='';}}
 
-// ══════════════════════════════════════
-// PAGES
-// ══════════════════════════════════════
-let curPg="catalog";
-const PAGES=["catalog","cart","checkout","orders","profile"];
+// ── LANGUAGE ──────────────────────────────────────────────────────────────────
+function flipLang(){
+  lang=lang==='ru'?'en':'ru';
+  applyLang();buildChips();renderGrid();buildTips();renderOrders();renderCart();buildSummary();buildProfile();
+  buildTypeChips('gps');buildTypeChips('man');renderSavedPanel();
+}
+function applyLang(){
+  const f=lang==='ru'?'🇷🇺':'🇬🇧';
+  document.querySelectorAll('.lang-btn').forEach(b=>b.textContent=f);
+  set('sh-catalog',t('catalog'));set('ls-cart',t('cart'));set('ls-co',t('co'));
+  set('ls-ord',t('orders'));set('ls-prof',t('profile'));
+  set('sh-orders',t('orders'));set('sh-active',t('activeOrders'));set('sh-saved',t('savedAddrs'));
+  set('nbl-cat',t('catalog'));set('nbl-cart',t('cart'));set('nbl-co',t('co'));
+  set('nbl-ord',t('orders'));set('nbl-prof',t('profile'));
+  set('tot-lbl',t('total'));set('co-btn',t('coBtn'));set('clear-btn',t('clearCart'));
+  set('ct1',t('ct1'));set('ct2',t('ct2'));
+  set('mtl-gps',t('mtabGps'));set('mtl-manual',t('mtabManual'));set('mtl-saved',t('mtabSaved'));
+  set('gps-lbl',t('gpsBtn'));
+  set('lbl-type-gps',t('lblTypeGps'));set('lbl-type-man',t('lblTypeMan'));set('lbl-street',t('lblStreet'));
+  el('man-street').placeholder=lang==='ru'?'ул. Ленина / район Марина':'Main St / Marina area';
+  set('saved-empty',t('savedEmpty'));
+  set('save-lbl',t('saveLbl'));el('save-name').placeholder=t('saveNamePh');
+  set('phone-lbl',t('phoneLbl'));el('phone-in').placeholder=lang==='ru'?'79001234567':'971501234567';
+  set('sum-title',t('sumTitle'));set('sum-tip-lbl',t('tipLbl'));set('sum-tot-lbl',t('totLbl'));
+  set('place-btn',t('placeBtn'));set('tip-lbl',t('tip'));
+  el('tip-input').placeholder=lang==='ru'?'Введите сумму...':'Enter amount...';
+}
+
+// ── PAGES ─────────────────────────────────────────────────────────────────────
+const PAGES=['catalog','cart','checkout','orders','profile'];
 function go(p){
-  PAGES.forEach(id=>{
-    el("pg-"+id)?.classList.toggle("hidden",id!==p);
-    el("nb-"+id)?.classList.toggle("on",id===p);
-  });
+  PAGES.forEach(id=>{el('pg-'+id)?.classList.toggle('hidden',id!==p);el('nb-'+id)?.classList.toggle('on',id===p);});
   curPg=p;
-  if(p==="cart")renderCart();
-  if(p==="orders")renderOrders();
-  if(p==="checkout"){buildSummary();switchLocMethod(curLocMethod);}
-  if(p==="profile")buildProfile();
+  if(p==='cart')renderCart();
+  if(p==='orders')renderOrders();
+  if(p==='checkout'){buildSummary();if(curMethod==='saved')renderSavedPanel();}
+  if(p==='profile')buildProfile();
 }
 
-// ══════════════════════════════════════
-// CATEGORY CHIPS
-// ══════════════════════════════════════
+// ── METHOD TABS ───────────────────────────────────────────────────────────────
+function switchMethod(m){
+  curMethod=m;
+  ['gps','manual','saved'].forEach(id=>{
+    el('mtab-'+id)?.classList.toggle('on',id===m);
+    el('mpanel-'+id)?.classList.toggle('show',id===m);
+  });
+  if(m==='saved')renderSavedPanel();
+  const ae=el('addr-err');ae.classList.remove('on');ae.textContent='';
+}
+
+// ── TYPE CHIPS ────────────────────────────────────────────────────────────────
+function buildTypeChips(p){
+  const types=TYPES[lang];
+  const sel=p==='gps'?selTypeGps:selTypeMan;
+  const chipsEl=el('tchips-'+p), fieldsEl=el('tfields-'+p);
+  if(!chipsEl||!fieldsEl)return;
+  chipsEl.innerHTML=types.map(tp=>`
+    <button class="type-chip${tp.id===sel?' on':''}" onclick="pickType('${p}','${tp.id}')">${tp.icon} ${tp.lbl}</button>
+  `).join('');
+  if(sel){const tp=types.find(x=>x.id===sel);if(tp)renderFields(p,tp);}
+  else fieldsEl.innerHTML='';
+}
+
+function pickType(p,id){
+  if(p==='gps')selTypeGps=id; else selTypeMan=id;
+  buildTypeChips(p);
+  const types=TYPES[lang];
+  const tp=types.find(x=>x.id===id);
+  if(tp)renderFields(p,tp);
+}
+
+function renderFields(p,tp){
+  const el_=el('tfields-'+p);
+  let html='';
+  for(let i=0;i<tp.fields.length;i+=2){
+    const a=tp.fields[i],b=tp.fields[i+1];
+    html+=`<div class="frow">
+      <div><label class="flabel">${a.l}</label><input class="finput" id="f-${p}-${a.k}" type="text" placeholder="${a.p}"></div>
+      ${b?`<div><label class="flabel">${b.l}</label><input class="finput" id="f-${p}-${b.k}" type="text" placeholder="${b.p}"></div>`:''}
+    </div>`;
+  }
+  el_.innerHTML=html;
+}
+
+function getAddrStr(p){
+  const types=TYPES[lang];
+  const sel=p==='gps'?selTypeGps:selTypeMan;
+  if(!sel)return null;
+  const tp=types.find(x=>x.id===sel);
+  if(!tp)return null;
+  const vals=tp.fields.map(f=>(el('f-'+p+'-'+f.k)?.value||'').trim()).filter(Boolean);
+  if(!vals.length)return null;
+  let prefix='';
+  if(p==='manual'){const s=(el('man-street')?.value||'').trim();if(s)prefix=s+', ';}
+  return tp.icon+' '+tp.lbl+' — '+prefix+vals.join(', ');
+}
+
+// ── GPS ───────────────────────────────────────────────────────────────────────
+function grabGPS(){
+  const btn=el('gps-btn'),stat=el('gps-status');
+  btn.style.opacity='0.6';set('gps-lbl',t('gpsBtnLoading'));stat.className='gps-status';
+  if(!navigator.geolocation){
+    btn.style.opacity='1';set('gps-lbl',t('gpsBtn'));
+    stat.className='gps-status fail';stat.textContent=t('gpsFail');return;
+  }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const{latitude:lat,longitude:lon}=pos.coords;
+    const off=nearestOffice(lat,lon);
+    locInfo={lat,lon,office_id:off.id,office_name:off.name};
+    btn.style.opacity='1';set('gps-lbl',t('gpsBtn'));
+    stat.className='gps-status ok';stat.textContent=t('gpsOk');
+    el('gps-extra').style.display='block';
+    buildTypeChips('gps');
+    showPill(off.name);
+  },()=>{
+    btn.style.opacity='1';set('gps-lbl',t('gpsBtn'));
+    stat.className='gps-status fail';stat.textContent=t('gpsFail');
+  },{timeout:10000,maximumAge:60000,enableHighAccuracy:true});
+}
+
+function showPill(name){
+  const p=el('opill');p.textContent='🏢 '+t('nearOffice')+': '+name;p.className='opill on';
+}
+
+// ── SAVED ─────────────────────────────────────────────────────────────────────
+function getSaved(){return JSON.parse(localStorage.getItem('ambar_saved')||'[]');}
+function setSaved(a){localStorage.setItem('ambar_saved',JSON.stringify(a.slice(0,8)));}
+
+function doSaveAddr(label,addr,lat,lon,office_id,office_name){
+  const arr=getSaved();
+  if(!arr.some(a=>a.address===addr)){
+    arr.unshift({label:label||addr,address:addr,lat:lat||0,lon:lon||0,office_id:office_id||'office_central',office_name:office_name||OFFICES[0].name});
+    setSaved(arr);showToast(t('addrSaved'),'ok');
+  }
+}
+
+function renderSavedPanel(){
+  const arr=getSaved(),list=el('saved-list'),empty=el('saved-empty');
+  if(!arr.length){list.innerHTML='';empty.style.display='block';empty.textContent=t('savedEmpty');return;}
+  empty.style.display='none';
+  list.innerHTML=arr.map((a,i)=>`
+    <div class="sai" id="sai-${i}" onclick="pickSaved(${i})">
+      <div class="sai-info">
+        <div class="sai-label">${a.label||a.address}</div>
+        <div class="sai-sub">${a.label&&a.label!==a.address?a.address:''}</div>
+      </div>
+      <span style="color:var(--gold);font-size:18px">›</span>
+    </div>
+  `).join('');
+}
+
+function pickSaved(i){
+  const a=getSaved()[i];if(!a)return;
+  document.querySelectorAll('.sai').forEach(e=>e.classList.remove('on'));
+  el('sai-'+i)?.classList.add('on');
+  locInfo={lat:a.lat||0,lon:a.lon||0,office_id:a.office_id,office_name:a.office_name};
+  showPill(a.office_name);
+  el('n1').className='co-num done';el('n1').textContent='✓';
+  showToast(t('addrPicked')+': '+(a.label||a.address),'ok');
+}
+
+function delSaved(i){
+  const arr=getSaved();arr.splice(i,1);setSaved(arr);
+  renderSavedPanel();buildProfile();showToast(t('addrDeleted'),'ok');
+}
+
+function toggleSave(){
+  saveFlag=!saveFlag;
+  el('sbox').className='sbox'+(saveFlag?' on':'');
+  el('sbox').textContent=saveFlag?'✓':'';
+  el('save-name').style.display=saveFlag?'block':'none';
+}
+
+// ── Build final address ────────────────────────────────────────────────────────
+function finalAddr(){
+  if(curMethod==='gps'){if(!locInfo)return null;return getAddrStr('gps');}
+  if(curMethod==='manual')return getAddrStr('man');
+  if(curMethod==='saved'){const s=document.querySelector('.sai.on');if(!s)return null;const i=parseInt(s.id.replace('sai-',''));return getSaved()[i]?.address||null;}
+  return null;
+}
+
+// ── CHIPS ─────────────────────────────────────────────────────────────────────
 function buildChips(){
-  const cats=["all",...new Set(P.map(p=>lang==="ru"?p.cat:p.catE))];
-  el("cat-chips").innerHTML=cats.map(c=>{
-    const lbl=c==="all"?t("all"):c;
-    return`<button class="chip${c===catF?" on":""}" onclick="setCat('${c}',this)">${lbl}</button>`;
-  }).join("");
+  const cats=['all',...new Set(P.map(p=>lang==='ru'?p.cat:p.catE))];
+  el('cat-chips').innerHTML=cats.map(c=>`<button class="chip${c===catF?' on':''}" onclick="setCat('${c}',this)">${c==='all'?t('all'):c}</button>`).join('');
 }
-function setCat(c,btn){
-  catF=c;
-  document.querySelectorAll(".chip").forEach(b=>b.classList.remove("on"));
-  btn.classList.add("on");
-  renderGrid();
-}
+function setCat(c,btn){catF=c;document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();}
 
-// ══════════════════════════════════════
-// GRID
-// ══════════════════════════════════════
+// ── GRID ──────────────────────────────────────────────────────────────────────
 function renderGrid(){
-  const list=catF==="all"?P:P.filter(p=>(lang==="ru"?p.cat:p.catE)===catF);
-  el("p-grid").innerHTML=list.map(p=>{
+  const list=catF==='all'?P:P.filter(p=>(lang==='ru'?p.cat:p.catE)===catF);
+  el('p-grid').innerHTML=list.map(p=>{
     const qty=cart[p.id]||0;
     return`<div class="pcard">
       <div class="pimg-box">
-        ${!p.stock?`<span class="pbadge oos">${t("oos")}</span>`:""}
-        ${p.isNew?`<span class="pbadge isnew">NEW</span>`:""}
-        <img class="pimg" src="${p.img}" alt="${p.name}"
-          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22><text y=%2268%22 font-size=%2264%22>🍾</text></svg>'">
+        ${!p.stock?`<span class="pbadge oos">${t('oos')}</span>`:''}
+        ${p.isNew?`<span class="pbadge isnew">NEW</span>`:''}
+        <img class="pimg" src="${p.img}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22><text y=%2268%22 font-size=%2264%22>🍾</text></svg>'">
       </div>
       <div class="pinfo">
-        <div class="pcat">${lang==="ru"?p.cat:p.catE}</div>
+        <div class="pcat">${lang==='ru'?p.cat:p.catE}</div>
         <div class="pname">${p.name}</div>
-        <div class="pdesc">${lang==="ru"?p.dRu:p.dEn}</div>
-        <div class="pfoot">
-          <div class="pprice">${p.price}<small> AED</small></div>
-          <div id="ctrl-${p.id}">${ctrlHTML(p,qty)}</div>
-        </div>
+        <div class="pdesc">${lang==='ru'?p.dRu:p.dEn}</div>
+        <div class="pfoot"><div class="pprice">${p.price}<small> AED</small></div><div id="ctrl-${p.id}">${ctrlHTML(p,qty)}</div></div>
       </div>
     </div>`;
-  }).join("");
+  }).join('');
 }
-
 function ctrlHTML(p,qty){
-  if(qty===0) return`<button class="add-btn"${!p.stock?" disabled":""} onclick="addItem('${p.id}')">+</button>`;
-  return`<div class="qctrl">
-    <button class="qb" onclick="chgQty('${p.id}',-1)">−</button>
-    <span class="qn">${qty}</span>
-    <button class="qb" onclick="chgQty('${p.id}',1)">+</button>
-  </div>`;
+  if(qty===0)return`<button class="add-btn"${!p.stock?' disabled':''} onclick="addItem('${p.id}')">+</button>`;
+  return`<div class="qctrl"><button class="qb" onclick="chgQty('${p.id}',-1)">−</button><span class="qn">${qty}</span><button class="qb" onclick="chgQty('${p.id}',1)">+</button></div>`;
 }
-
 function addItem(id){
-  const p=P.find(x=>x.id===id); if(!p||!p.stock) return;
-  const maxQty=p.stockQty||999;
-  if((cart[id]||0)>=maxQty){showToast((lang==="ru"?`Доступно: ${maxQty}`:`Available: ${maxQty}`),"err");return;}
-  cart[id]=1; syncCtrl(id); updHdr();
-  showToast(t("added")+": "+p.name,"ok");
+  const p=P.find(x=>x.id===id);if(!p||!p.stock)return;
+  const max=p.stockQty||999;
+  if((cart[id]||0)>=max){showToast(lang==='ru'?`Доступно: ${max}`:`Only ${max} available`,'err');return;}
+  cart[id]=1;syncCtrl(id);updHdr();showToast(t('added')+': '+p.name,'ok');
 }
-
 function chgQty(id,d){
-  const p=P.find(x=>x.id===id);
-  const maxQty=p?(p.stockQty||999):999;
-  const nq=(cart[id]||0)+d;
-  if(d>0&&nq>maxQty){showToast((lang==="ru"?`Доступно: ${maxQty}`:`Available: ${maxQty}`),"err");return;}
-  if(nq<=0) delete cart[id]; else cart[id]=nq;
-  syncCtrl(id); updHdr();
-  if(curPg==="cart") renderCart();
+  const p=P.find(x=>x.id===id),max=p?(p.stockQty||999):999,nq=(cart[id]||0)+d;
+  if(d>0&&nq>max){showToast(lang==='ru'?`Доступно: ${max}`:`Only ${max} available`,'err');return;}
+  if(nq<=0)delete cart[id];else cart[id]=nq;
+  syncCtrl(id);updHdr();if(curPg==='cart')renderCart();
 }
-
-function syncCtrl(id){
-  const e=el("ctrl-"+id); if(!e) return;
-  const p=P.find(x=>x.id===id);
-  e.innerHTML=ctrlHTML(p,cart[id]||0);
-}
-
-function cartSubtotal(){
-  return Object.entries(cart).reduce((s,[id,qty])=>{
-    const p=P.find(x=>x.id===id); return s+(p?p.price*qty:0);
-  },0);
-}
-
+function syncCtrl(id){const e=el('ctrl-'+id);if(!e)return;const p=P.find(x=>x.id===id);e.innerHTML=ctrlHTML(p,cart[id]||0);}
+function cartSub(){return Object.entries(cart).reduce((s,[id,qty])=>{const p=P.find(x=>x.id===id);return s+(p?p.price*qty:0);},0);}
 function updHdr(){
   const cnt=Object.values(cart).reduce((a,b)=>a+b,0);
-  const tot=cartSubtotal();
-  el("hdr-tot").textContent=tot>0?tot+" AED":"0 AED";
-  const dot=el("hdr-dot"); dot.textContent=cnt; dot.style.display=cnt>0?"flex":"none";
+  el('hdr-tot').textContent=cartSub()+' AED';
+  const dot=el('hdr-dot');dot.textContent=cnt;dot.style.display=cnt>0?'flex':'none';
 }
 
-// ══════════════════════════════════════
-// CART
-// ══════════════════════════════════════
+// ── CART ──────────────────────────────────────────────────────────────────────
 function renderCart(){
   const entries=Object.entries(cart).filter(([,q])=>q>0);
-  const foot=el("cart-foot"), tipSec=el("tip-section");
-  if(!entries.length){
-    el("cart-list").innerHTML=`<div class="empty"><div class="empty-icon">🛒</div><div>${t("emptyCart")}</div></div>`;
-    foot.style.display="none"; tipSec.style.display="none"; return;
-  }
-  el("cart-list").innerHTML=entries.map(([id,qty])=>{
-    const p=P.find(x=>x.id===id); if(!p) return"";
-    return`<div class="ci">
-      <img class="ci-img" src="${p.img}" alt="${p.name}"
-        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 52 62%22><text y=%2248%22 font-size=%2240%22>🍾</text></svg>'">
+  const foot=el('cart-foot'),tipSec=el('tip-section');
+  if(!entries.length){el('cart-list').innerHTML=`<div class="empty"><div class="empty-icon">🛒</div><div>${t('emptyCart')}</div></div>`;foot.style.display='none';tipSec.style.display='none';return;}
+  el('cart-list').innerHTML=entries.map(([id,qty])=>{
+    const p=P.find(x=>x.id===id);if(!p)return'';
+    return`<div class="ci"><img class="ci-img" src="${p.img}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 52 62%22><text y=%2248%22 font-size=%2240%22>🍾</text></svg>'">
       <div class="ci-info"><div class="ci-name">${p.name}</div><div class="ci-price">${p.price*qty} AED</div></div>
-      <div class="qctrl">
-        <button class="qb" onclick="chgQty('${id}',-1)">−</button>
-        <span class="qn">${qty}</span>
-        <button class="qb" onclick="chgQty('${id}',1)">+</button>
-      </div>
+      <div class="qctrl"><button class="qb" onclick="chgQty('${id}',-1)">−</button><span class="qn">${qty}</span><button class="qb" onclick="chgQty('${id}',1)">+</button></div>
     </div>`;
-  }).join("");
-  el("tot-n").textContent=cartSubtotal()+tip;
-  foot.style.display="block"; tipSec.style.display="block";
+  }).join('');
+  el('tot-n').textContent=cartSub()+tip;foot.style.display='block';tipSec.style.display='block';
 }
+function clearCart(){cart={};tip=0;updHdr();renderCart();buildTips();}
 
-function clearCart(){
-  cart={}; tip=0; updHdr(); renderCart(); buildTips();
-}
-
-// ══════════════════════════════════════
-// TIPS
-// ══════════════════════════════════════
+// ── TIPS ──────────────────────────────────────────────────────────────────────
 function buildTips(){
-  el("tip-row").innerHTML=TIP_OPTS.map((v,i)=>{
-    const isLast=i===TIP_OPTS.length-1;
-    const lbl=isLast?t("customTip"):(v===0?t("noTip"):`${v} AED`);
-    return`<button class="tip-chip${v===tip&&!isLast?" on":""}" onclick="pickTip(${v},${isLast},this)">${lbl}</button>`;
-  }).join("");
-  el("tip-input").placeholder=lang==="ru"?"Введите сумму...":"Enter amount...";
+  el('tip-row').innerHTML=TIP_OPTS.map((v,i)=>{
+    const isLast=i===TIP_OPTS.length-1,lbl=isLast?t('customTip'):(v===0?t('noTip'):`${v} AED`);
+    return`<button class="tip-chip${v===tip&&!isLast?' on':''}" onclick="pickTip(${v},${isLast},this)">${lbl}</button>`;
+  }).join('');
+  el('tip-input').placeholder=lang==='ru'?'Введите сумму...':'Enter amount...';
 }
-
 function pickTip(v,isCustom,btn){
-  document.querySelectorAll(".tip-chip").forEach(b=>b.classList.remove("on"));
-  btn.classList.add("on");
-  const inp=el("tip-input");
-  if(isCustom){
-    inp.style.display="block"; inp.focus();
-    inp.oninput=()=>{tip=Math.max(0,parseInt(inp.value)||0); updCartTot();};
-  } else {
-    inp.style.display="none"; tip=v; updCartTot();
-  }
+  document.querySelectorAll('.tip-chip').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  const inp=el('tip-input');
+  if(isCustom){inp.style.display='block';inp.focus();inp.oninput=()=>{tip=Math.max(0,parseInt(inp.value)||0);updCartTot();};}
+  else{inp.style.display='none';tip=v;updCartTot();}
 }
+function updCartTot(){el('tot-n').textContent=cartSub()+tip;buildSummary();}
 
-function updCartTot(){
-  el("tot-n").textContent=cartSubtotal()+tip;
-  buildSummary();
-}
-
-// ══════════════════════════════════════
-// LOCATION (GPS)
-// ══════════════════════════════════════
-function applyLocResult(lat, lon, office_id, office_name){
-  let off;
-  if(office_id && office_name){
-    off = {id: office_id, name: office_name, _d: 0};
-  } else {
-    off = nearestOffice(lat, lon);
-  }
-  locInfo={lat, lon, office_id: off.id, office_name: off.name, dist_km: (off._d||0).toFixed(1)};
-  el("loc-btn").style.opacity="1"; el("loc-btn-txt").textContent=t("locBtn");
-  el("loc-state").className="loc-state ok"; el("loc-state").textContent=t("locOk");
-  markLocDone();
-}
-
-function grabLocation(){
-  const btn=el("loc-btn"), stat=el("loc-state"), ob=el("office-badge");
-  btn.style.opacity="0.6";
-  el("loc-btn-txt").textContent=t("locGetting");
-  stat.className="loc-state"; ob.className="office-badge";
-
-  if(!navigator.geolocation){
-    locInfo=null; btn.style.opacity="1"; el("loc-btn-txt").textContent=t("locBtn");
-    stat.className="loc-state fail"; stat.textContent=t("locFail"); return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    pos=>{ applyLocResult(pos.coords.latitude, pos.coords.longitude); },
-    ()=>{
-      locInfo=null; btn.style.opacity="1"; el("loc-btn-txt").textContent=t("locBtn");
-      el("loc-state").className="loc-state fail"; el("loc-state").textContent=t("locFail");
-    },
-    {timeout:10000,maximumAge:60000,enableHighAccuracy:true}
-  );
-}
-
-function clearErr(field){
-  el(field+"-in").classList.remove("err");
-  el(field+"-err").classList.remove("on");
-}
-
-// ══════════════════════════════════════
-// SUMMARY
-// ══════════════════════════════════════
+// ── SUMMARY ───────────────────────────────────────────────────────────────────
 function buildSummary(){
-  const entries=Object.entries(cart).filter(([,q])=>q>0);
-  const sub=cartSubtotal();
-  el("sum-items").innerHTML=entries.map(([id,qty])=>{
-    const p=P.find(x=>x.id===id);
-    return p?`<div class="sum-line"><span>${p.name} ×${qty}</span><span>${p.price*qty} AED</span></div>`:"";
-  }).join("");
-  const tr=el("sum-tip-row");
-  if(tip>0){tr.style.display="flex"; el("sum-tip-val").textContent=tip+" AED";}
-  else tr.style.display="none";
-  el("sum-tot-val").textContent=(sub+tip)+" AED";
+  const entries=Object.entries(cart).filter(([,q])=>q>0),sub=cartSub();
+  el('sum-items').innerHTML=entries.map(([id,qty])=>{const p=P.find(x=>x.id===id);return p?`<div class="sum-line"><span>${p.name} ×${qty}</span><span>${p.price*qty} AED</span></div>`:''}).join('');
+  const tr=el('sum-tip-row');
+  if(tip>0){tr.style.display='flex';el('sum-tip-val').textContent=tip+' AED';}else tr.style.display='none';
+  el('sum-tot-val').textContent=(sub+tip)+' AED';
 }
 
-// ══════════════════════════════════════
-// PLACE ORDER
-// ══════════════════════════════════════
+// ── PLACE ORDER ───────────────────────────────────────────────────────────────
 function placeOrder(){
   const entries=Object.entries(cart).filter(([,q])=>q>0);
-  if(!entries.length){showToast(t("emptyCart"),"err");return;}
+  if(!entries.length){showToast(t('emptyCart'),'err');return;}
 
-  // Validate address
-  const addr=el("addr-in").value.trim();
-  if(addr.length<10){
-    el("addr-in").classList.add("err");
-    el("addr-err").textContent=t("addrErr");
-    el("addr-err").classList.add("on");
-    el("addr-in").focus(); go("checkout"); return;
+  const addr=finalAddr();
+  if(!addr){
+    const ae=el('addr-err');
+    ae.textContent=curMethod==='saved'?t('addrErr'):t('typeErr');
+    ae.classList.add('on');go('checkout');return;
   }
 
-  // Validate phone — digits only, 10-15 chars
-  const rawPhone=el("phone-in").value.trim();
-  const digits=rawPhone.replace(/\D/g,"");
-  if(digits.length<10||digits.length>15||!/^\+?\d+$/.test(rawPhone)){
-    el("phone-in").classList.add("err");
-    el("phone-err").textContent=t("phoneErr");
-    el("phone-err").classList.add("on");
-    el("phone-in").focus(); go("checkout"); return;
+  const raw=el('phone-in').value.trim(),digits=raw.replace(/\D/g,'');
+  if(digits.length<10||digits.length>15){
+    el('phone-in').classList.add('err');el('phone-err').textContent=t('phoneErr');el('phone-err').classList.add('on');
+    el('phone-in').focus();go('checkout');return;
   }
 
-  const addrLabel=el("addr-label-in").value.trim()||addr;
-  if(saveAddrFlag && addr){
-    saveAddressLocally(addr, addrLabel, locInfo?.lat||0, locInfo?.lon||0, locInfo?.office_id||"office_central", locInfo?.office_name||"Ambar");
-  }
+  const officeId=locInfo?.office_id||'office_central',officeName=locInfo?.office_name||OFFICES[0].name;
+  if(saveFlag){const lbl=(el('save-name')?.value||'').trim();doSaveAddr(lbl,addr,locInfo?.lat||0,locInfo?.lon||0,officeId,officeName);}
 
-  const items=entries.map(([id,qty])=>{
-    const p=P.find(x=>x.id===id);
-    return{id,name:p.name,price:p.price,qty,line_total:p.price*qty};
-  });
-  const sub=cartSubtotal(), total=sub+tip;
-  const oid="AMB"+Date.now().toString().slice(-7);
+  const items=entries.map(([id,qty])=>{const p=P.find(x=>x.id===id);return{id,name:p.name,price:p.price,qty,line_total:p.price*qty};});
+  const sub=cartSub(),total=sub+tip,oid='AMB'+Date.now().toString().slice(-7);
+  const payload={action:'order',order_id:oid,items,subtotal:sub,tip,total,currency:'AED',phone:digits,address:addr,location:{lat:locInfo?.lat||0,lon:locInfo?.lon||0},office_id:officeId,office_name:officeName,lang};
 
-  const payload={
-    action:"order", order_id:oid,
-    items, subtotal:sub, tip, total, currency:"AED",
-    phone:digits, address:addr,
-    location: locInfo ? {lat:locInfo.lat,lon:locInfo.lon} : {lat:0,lon:0},
-    office_id: locInfo?.office_id || "office_central",
-    office_name: locInfo?.office_name || "Ambar",
-    save_address: saveAddrFlag,
-    address_label: addrLabel||addr,
-    lang,
-  };
+  orders.unshift({order_id:oid,items,total,address:addr,status:'pending',timestamp:new Date().toISOString()});
+  localStorage.setItem('ambar_orders',JSON.stringify(orders.slice(0,50)));
 
-  // Store locally
-  orders.unshift({order_id:oid,items,total,address:addr,status:"pending",timestamp:new Date().toISOString()});
-  localStorage.setItem("ambar_orders",JSON.stringify(orders.slice(0,50)));
-
-  if(tg?.sendData){
-    tg.sendData(JSON.stringify(payload));
-  } else {
-    console.log("ORDER PAYLOAD:",JSON.stringify(payload,null,2));
-  }
+  if(tg?.sendData)tg.sendData(JSON.stringify(payload));
+  else console.log('ORDER:',JSON.stringify(payload,null,2));
 
   // Reset
-  cart={}; tip=0; locInfo=null; saveAddrFlag=false; curLocMethod='gps';
-  el("addr-in").value=""; el("phone-in").value="";
-  el("addr-label-in").value=""; el("addr-label-in").style.display="none";
-  el("save-addr-chk").className="save-addr-chk";
-  el("manual-addr-in").value=""; el("manual-desc-in").value="";
-  el("loc-state").className="loc-state"; el("office-badge").className="office-badge";
-  el("n1").className="co-num"; el("n1").textContent="1";
-  updHdr(); buildTips();
-  showToast(t("placed"),"ok");
-  setTimeout(()=>go("orders"),1400);
+  cart={};tip=0;locInfo=null;saveFlag=false;curMethod='gps';selTypeGps=null;selTypeMan=null;
+  el('phone-in').value='';el('man-street').value='';
+  el('save-name').value='';el('save-name').style.display='none';
+  el('sbox').className='sbox';el('sbox').textContent='';
+  el('gps-status').className='gps-status';el('gps-extra').style.display='none';
+  el('opill').className='opill';el('n1').className='co-num';el('n1').textContent='1';
+  el('addr-err').classList.remove('on');el('addr-err').textContent='';
+  el('tfields-gps').innerHTML='';el('tfields-man').innerHTML='';
+  switchMethod('gps');buildTypeChips('gps');buildTypeChips('man');
+  updHdr();buildTips();showToast(t('placed'),'ok');
+  setTimeout(()=>go('orders'),1400);
 }
 
-// ══════════════════════════════════════
-// ORDERS
-// ══════════════════════════════════════
+// ── ORDERS ────────────────────────────────────────────────────────────────────
 function renderOrders(){
-  if(!orders.length){
-    el("orders-list").innerHTML=`<div class="empty"><div class="empty-icon">📦</div><div>${t("noOrders")}</div></div>`;
-    return;
-  }
-  const cls={pending:"sp",confirmed:"sc",delivered:"sd",declined:"sx"};
-  const lbl={pending:()=>t("stP"),confirmed:()=>t("stC"),delivered:()=>t("stD"),declined:()=>t("stX")};
-  el("orders-list").innerHTML=orders.map(o=>{
-    const ts=o.timestamp?o.timestamp.slice(0,16).replace("T"," "):"";
-    const sc=cls[o.status]||"sp", sl=(lbl[o.status]||lbl.pending)();
-    return`<div class="ocard">
-      <div class="ocard-top">
-        <div><div class="o-id">#${o.order_id}</div><div class="o-date">${ts}</div></div>
-        <span class="o-status ${sc}">${sl}</span>
-      </div>
-      <div class="o-items">${o.items.map(i=>`${i.name} ×${i.qty}`).join(" · ")}</div>
-      <div class="o-total">${o.total} AED</div>
-    </div>`;
-  }).join("");
+  if(!orders.length){el('orders-list').innerHTML=`<div class="empty"><div class="empty-icon">📦</div><div>${t('noOrders')}</div></div>`;return;}
+  const cls={pending:'sp',confirmed:'sc',delivered:'sd',declined:'sx'};
+  const lbl={pending:()=>t('stP'),confirmed:()=>t('stC'),delivered:()=>t('stD'),declined:()=>t('stX')};
+  el('orders-list').innerHTML=orders.map(o=>{
+    const ts=o.timestamp?o.timestamp.slice(0,16).replace('T',' '):'';
+    return`<div class="ocard"><div class="ocard-top"><div><div class="o-id">#${o.order_id}</div><div class="o-date">${ts}</div></div><span class="o-status ${cls[o.status]||'sp'}">${(lbl[o.status]||lbl.pending)()}</span></div><div class="o-items">${o.items.map(i=>`${i.name} ×${i.qty}`).join(' · ')}</div><div class="o-total">${o.total} AED</div></div>`;
+  }).join('');
 }
 
-// ══════════════════════════════════════
-// PROFILE
-// ══════════════════════════════════════
+// ── PROFILE ───────────────────────────────────────────────────────────────────
 function buildProfile(){
-  const name=tg?.initDataUnsafe?.user?.first_name||"Guest";
-  const av=name[0]?.toUpperCase()||"A";
-  el("prof-av").textContent=av; el("prof-name").textContent=name;
-
-  const active=orders.filter(o=>["pending","confirmed"].includes(o.status));
-  const spent=orders.filter(o=>o.status==="delivered").reduce((s,o)=>s+o.total,0);
-  el("stat-total").textContent=orders.length;
-  el("stat-active").textContent=active.length;
-  el("stat-spent").textContent=spent;
-  el("stat-lbl1").textContent=t("statOrders");
-  el("stat-lbl2").textContent=t("statActive");
-  el("stat-lbl3").textContent=t("statSpent");
-
-  // Saved addresses
-  const addrs=loadSavedAddresses();
-  const profList=el("profile-addrs-list");
-  if(profList){
-    if(!addrs.length){
-      profList.innerHTML=`<div class="empty" style="padding:20px 0"><div>${lang==="ru"?"Нет сохранённых адресов":"No saved addresses"}</div></div>`;
-    } else {
-      profList.innerHTML=addrs.map((a,i)=>`
-        <div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:11px 13px;margin-bottom:8px">
-          <span>📍</span>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600">${a.label||a.address}</div>
-            <div style="font-size:11px;color:var(--muted)">${a.label?a.address:""}</div>
-          </div>
-          <button onclick="deleteAddress(${i})" style="width:28px;height:28px;border-radius:8px;border:1px solid rgba(224,85,85,.3);background:rgba(224,85,85,.08);color:var(--red);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">✕</button>
-        </div>
-      `).join("");
-    }
-  }
-
-  if(!active.length){
-    el("active-list").innerHTML=`<div class="empty" style="padding:20px 0"><div>${t("noActive")}</div></div>`;
-    return;
-  }
-  const cls={pending:"sp",confirmed:"sc"};
-  const lbl={pending:()=>t("stP"),confirmed:()=>t("stC")};
-  el("active-list").innerHTML=active.map(o=>{
-    const sc=cls[o.status]||"sp", sl=(lbl[o.status]||lbl.pending)();
-    return`<div class="ocard">
-      <div class="ocard-top">
-        <div><div class="o-id">#${o.order_id}</div></div>
-        <span class="o-status ${sc}">${sl}</span>
-      </div>
-      <div class="o-items">${o.items.map(i=>`${i.name} ×${i.qty}`).join(" · ")}</div>
-      <div class="o-total">${o.total} AED</div>
-    </div>`;
-  }).join("");
+  const name=tg?.initDataUnsafe?.user?.first_name||'Guest';
+  el('prof-av').textContent=name[0]?.toUpperCase()||'A';el('prof-name').textContent=name;
+  const active=orders.filter(o=>['pending','confirmed'].includes(o.status));
+  const spent=orders.filter(o=>o.status==='delivered').reduce((s,o)=>s+o.total,0);
+  el('stat-total').textContent=orders.length;el('stat-active').textContent=active.length;el('stat-spent').textContent=spent;
+  set('stat-lbl1',t('statOrders'));set('stat-lbl2',t('statActive'));set('stat-lbl3',t('statSpent'));
+  const arr=getSaved(),pl=el('prof-saved');
+  pl.innerHTML=!arr.length?`<div class="empty" style="padding:20px 0"><div>${t('noSaved')}</div></div>`:
+    arr.map((a,i)=>`<div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:11px 13px;margin-bottom:8px">
+      <span>📍</span>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">${a.label||a.address}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${a.label&&a.label!==a.address?a.address:''}</div></div>
+      <button onclick="delSaved(${i})" style="width:28px;height:28px;border-radius:8px;border:1px solid rgba(224,85,85,.3);background:rgba(224,85,85,.08);color:var(--red);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">✕</button>
+    </div>`).join('');
+  if(!active.length){el('active-list').innerHTML=`<div class="empty" style="padding:20px 0"><div>${t('noActive')}</div></div>`;return;}
+  el('active-list').innerHTML=active.map(o=>`<div class="ocard"><div class="ocard-top"><div><div class="o-id">#${o.order_id}</div></div><span class="o-status ${o.status==='confirmed'?'sc':'sp'}">${o.status==='confirmed'?t('stC'):t('stP')}</span></div><div class="o-items">${o.items.map(i=>`${i.name} ×${i.qty}`).join(' · ')}</div><div class="o-total">${o.total} AED</div></div>`).join('');
 }
 
-// ══════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════
-let toastTimer;
-function showToast(msg,type=""){
-  const e=el("toast");
-  clearTimeout(toastTimer);
-  e.classList.remove("show");
-  void e.offsetWidth; // force reflow so animation restarts
-  e.textContent=msg; e.className="toast "+(type||""); e.classList.add("show");
-  toastTimer=setTimeout(()=>e.classList.remove("show"),2200);
+// ── TOAST (fixed) ─────────────────────────────────────────────────────────────
+let _tt;
+function showToast(msg,type=''){
+  const e=el('toast');
+  clearTimeout(_tt);
+  e.className='toast';      // strip everything first
+  void e.offsetWidth;       // force reflow
+  e.textContent=msg;
+  e.className='toast'+(type?' '+type:'')+' show';
+  _tt=setTimeout(()=>{e.classList.remove('show');},2200);
 }
 </script>
 </body>
