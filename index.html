@@ -128,15 +128,18 @@ img{display:block}
 .ferr{font-size:11px;color:var(--red);margin-top:5px;display:none}
 .ferr.on{display:block}
 
-/* Location button */
-.loc-btn{display:flex;align-items:center;gap:10px;width:100%;background:rgba(201,169,110,.07);border:1.5px solid rgba(201,169,110,.2);border-radius:var(--r2);padding:13px 15px;cursor:pointer;color:var(--gold);font-size:13px;font-weight:600;transition:.2s}
-.loc-btn:active{transform:scale(.97)}
-.loc-btn .li{font-size:22px}
-.loc-state{margin-top:8px;font-size:12px;padding:9px 12px;border-radius:9px;display:none}
-.loc-state.ok{display:block;background:rgba(76,175,125,.1);color:var(--green);border:1px solid rgba(76,175,125,.2)}
-.loc-state.fail{display:block;background:rgba(224,85,85,.08);color:var(--red);border:1px solid rgba(224,85,85,.18)}
-.office-badge{margin-top:7px;display:none;font-size:11px;color:var(--sub);background:var(--bg3);padding:8px 12px;border-radius:8px;line-height:1.5}
-.office-badge.on{display:block}
+/* Location method buttons */
+.loc-methods{display:flex;gap:8px;margin-bottom:14px}
+.loc-method{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--sub);font-size:11px;font-weight:500;text-align:center}
+.loc-method.on{border-color:var(--gold);background:rgba(201,169,110,.08);color:var(--gold)}
+.loc-method:active{transform:scale(.95)}
+.loc-method i{font-size:22px}
+.loc-panel{display:none}
+.loc-panel.show{display:block}
+.manual-row{display:flex;gap:8px;margin-top:10px}
+.manual-row .finput{flex:1}
+.manual-apply{padding:12px 16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#07070E;border:none;border-radius:var(--r3);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.15s}
+.manual-apply:active{transform:scale(.95)}
 
 /* Summary */
 .sum-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin:0 16px 14px}
@@ -238,16 +241,44 @@ img{display:block}
         <div class="co-title" id="ct1">Геолокация</div>
       </div>
       <div class="co-inner">
-        <!-- Saved addresses -->
-        <div id="saved-addrs-wrap" style="display:none;margin-bottom:10px">
-          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px" id="saved-addrs-title">СОХРАНЁННЫЕ АДРЕСА</div>
-          <div id="saved-addrs-list"></div>
+
+        <!-- 3 method buttons -->
+        <div class="loc-methods">
+          <button class="loc-method" id="lm-saved" onclick="switchLocMethod('saved')">
+            <i>⭐</i><span id="lm-saved-lbl">Сохранённые</span>
+          </button>
+          <button class="loc-method" id="lm-gps" onclick="switchLocMethod('gps')">
+            <i>📍</i><span id="lm-gps-lbl">GPS</span>
+          </button>
+          <button class="loc-method" id="lm-manual" onclick="switchLocMethod('manual')">
+            <i>✏️</i><span id="lm-manual-lbl">Вручную</span>
+          </button>
         </div>
-        <button class="loc-btn" onclick="grabLocation()" id="loc-btn">
-          <span class="li">📍</span>
-          <span id="loc-btn-txt">Нажмите чтобы определить местоположение</span>
-        </button>
-        <div class="loc-state" id="loc-state"></div>
+
+        <!-- Panel: Saved addresses -->
+        <div class="loc-panel" id="panel-saved">
+          <div id="saved-addrs-list-co"></div>
+          <div id="saved-addrs-empty" style="display:none;font-size:12px;color:var(--muted);padding:10px 0">Нет сохранённых адресов</div>
+        </div>
+
+        <!-- Panel: GPS -->
+        <div class="loc-panel" id="panel-gps">
+          <button class="loc-btn" onclick="grabLocation()" id="loc-btn">
+            <span class="li">📍</span>
+            <span id="loc-btn-txt">Нажмите чтобы определить местоположение</span>
+          </button>
+          <div class="loc-state" id="loc-state"></div>
+        </div>
+
+        <!-- Panel: Manual -->
+        <div class="loc-panel" id="panel-manual">
+          <label class="flabel" style="margin-bottom:6px" id="manual-lbl">ВВЕДИТЕ АДРЕС ВРУЧНУЮ</label>
+          <input class="finput" id="manual-addr-in" type="text" placeholder="ул. Ленина, д. 5, кв. 12">
+          <label class="flabel" style="margin-top:10px;margin-bottom:6px" id="manual-desc-lbl">ОПИСАНИЕ / ОРИЕНТИР (опционально)</label>
+          <input class="finput" id="manual-desc-in" type="text" placeholder="Рядом с Лукойлом, 3 этаж...">
+          <button class="manual-apply" style="width:100%;margin-top:10px" onclick="applyManualLocation()" id="manual-apply-btn">Применить ✓</button>
+        </div>
+
         <div class="office-badge" id="office-badge"></div>
       </div>
     </div>
@@ -394,7 +425,7 @@ let P = [];
 
 async function loadCatalog(){
   try {
-    const res = await fetch('catalog.json?t='+Date.now());
+    const res = await fetch('https://nakhundov02.github.io/ambarwebpage/catalog.json?t='+Date.now());
     P = await res.json();
   } catch(e) {
     console.warn('catalog.json load failed:', e);
@@ -421,32 +452,72 @@ function saveAddressLocally(address, label, lat, lon, office_id, office_name){
     persistAddresses(arr);
   }
 }
-function deleteAddress(i){
-  const arr=loadSavedAddresses(); arr.splice(i,1); persistAddresses(arr);
-  renderSavedAddresses(); buildProfile();
-  showToast(lang==="ru"?"Адрес удалён":"Address removed","ok");
+// ══════════════════════════════════════
+// LOCATION METHOD SWITCHER
+// ══════════════════════════════════════
+let curLocMethod = 'gps';
+function switchLocMethod(m){
+  curLocMethod = m;
+  ['saved','gps','manual'].forEach(id=>{
+    el('lm-'+id)?.classList.toggle('on', id===m);
+    el('panel-'+id)?.classList.toggle('show', id===m);
+  });
+  if(m==='saved') renderSavedAddressesCheckout();
 }
-function renderSavedAddresses(){
-  const arr=loadSavedAddresses();
-  const sec=el("saved-addrs-wrap");
-  if(!sec) return;
-  if(!arr.length){sec.style.display="none";return;}
-  sec.style.display="block";
-  el("saved-addrs-list").innerHTML=arr.map((a,i)=>`
+
+function renderSavedAddressesCheckout(){
+  const arr = loadSavedAddresses();
+  const list = el('saved-addrs-list-co');
+  const empty = el('saved-addrs-empty');
+  if(!arr.length){
+    list.innerHTML=''; empty.style.display='block'; return;
+  }
+  empty.style.display='none';
+  list.innerHTML = arr.map((a,i)=>`
     <button class="saved-addr-btn" onclick="pickSavedAddress(${i})">
-      <span>📍</span>
+      <span style="font-size:20px">📍</span>
       <div style="flex:1;min-width:0;text-align:left">
-        <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label||a.address}</div>
-        <div style="font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label?a.address:""}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label||a.address}</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.label?a.address:''}</div>
       </div>
+      <span style="color:var(--gold);font-size:16px">›</span>
     </button>
-  `).join("");
+  `).join('');
 }
+
 function pickSavedAddress(i){
   const arr=loadSavedAddresses(); const a=arr[i]; if(!a) return;
-  el("addr-in").value=a.address; clearErr("addr");
-  if(a.lat&&a.lon){ applyLocResult(a.lat,a.lon,a.office_id,a.office_name); }
-  showToast((lang==="ru"?"Адрес выбран":"Address selected")+": "+(a.label||a.address),"ok");
+  el('addr-in').value=a.address; clearErr('addr');
+  if(a.lat&&a.lon){ applyLocResult(a.lat, a.lon, a.office_id, a.office_name); }
+  else { markLocDone(); }
+  showToast((lang==='ru'?'Адрес выбран':'Address selected')+': '+(a.label||a.address),'ok');
+}
+
+function applyManualLocation(){
+  const addr = el('manual-addr-in').value.trim();
+  const desc = el('manual-desc-in').value.trim();
+  if(!addr){ showToast(lang==='ru'?'Введите адрес':'Enter address','err'); return; }
+  const full = desc ? addr+' — '+desc : addr;
+  el('addr-in').value = full; clearErr('addr');
+  locInfo = {lat:0, lon:0, office_id:'office_central', office_name:'Ambar'};
+  markLocDone();
+  showToast(lang==='ru'?'Адрес применён ✓':'Address applied ✓','ok');
+}
+
+function markLocDone(){
+  el('office-badge').className='office-badge on';
+  el('office-badge').innerHTML = locInfo?.office_name
+    ? `🏢 ${locInfo.office_name}`
+    : (lang==='ru'?'✅ Адрес установлен':'✅ Address set');
+  el('n1').className='co-num done'; el('n1').textContent='✓';
+}
+
+function renderSavedAddresses(){ renderSavedAddressesCheckout(); }
+
+function deleteAddress(i){
+  const arr=loadSavedAddresses(); arr.splice(i,1); persistAddresses(arr);
+  renderSavedAddressesCheckout(); buildProfile();
+  showToast(lang==='ru'?'Адрес удалён':'Address removed','ok');
 }
 
 let saveAddrFlag=false;
@@ -570,7 +641,7 @@ function go(p){
   curPg=p;
   if(p==="cart")renderCart();
   if(p==="orders")renderOrders();
-  if(p==="checkout"){buildSummary();renderSavedAddresses();}
+  if(p==="checkout"){buildSummary();switchLocMethod(curLocMethod);}
   if(p==="profile")buildProfile();
 }
 
@@ -737,9 +808,7 @@ function applyLocResult(lat, lon, office_id, office_name){
   locInfo={lat, lon, office_id: off.id, office_name: off.name, dist_km: (off._d||0).toFixed(1)};
   el("loc-btn").style.opacity="1"; el("loc-btn-txt").textContent=t("locBtn");
   el("loc-state").className="loc-state ok"; el("loc-state").textContent=t("locOk");
-  el("office-badge").className="office-badge on";
-  el("office-badge").innerHTML=`${t("officeLabel")} <strong>${off.name}</strong>`;
-  el("n1").className="co-num done"; el("n1").textContent="✓";
+  markLocDone();
 }
 
 function grabLocation(){
@@ -845,10 +914,11 @@ function placeOrder(){
   }
 
   // Reset
-  cart={}; tip=0; locInfo=null; saveAddrFlag=false;
+  cart={}; tip=0; locInfo=null; saveAddrFlag=false; curLocMethod='gps';
   el("addr-in").value=""; el("phone-in").value="";
   el("addr-label-in").value=""; el("addr-label-in").style.display="none";
   el("save-addr-chk").className="save-addr-chk";
+  el("manual-addr-in").value=""; el("manual-desc-in").value="";
   el("loc-state").className="loc-state"; el("office-badge").className="office-badge";
   el("n1").className="co-num"; el("n1").textContent="1";
   updHdr(); buildTips();
