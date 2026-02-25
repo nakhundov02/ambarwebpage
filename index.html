@@ -342,7 +342,8 @@ img{display:block}
   <button class="nb" id="nb-orders" onclick="go('orders')"><i>📦</i><span id="nbl-ord">История</span></button>
   <button class="nb" id="nb-profile" onclick="go('profile');buildProfile()"><i>👤</i><span id="nbl-prof">Профиль</span></button>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast0"></div>
+<div class="toast" id="toast1"></div>
 
 <script>
 // ── OFFICES ───────────────────────────────────────────────────────────────────
@@ -385,18 +386,47 @@ async function loadCatalog(){
 const TIP_OPTS=[0,50,100,200,500];
 
 // ── ADDRESS TYPES (RU / EN) ────────────────────────────────────────────────────
+// req:true = at least one field in group must be filled
 const TYPES={
   ru:[
-    {id:'home',  icon:'🏠',lbl:'Дом',     fields:[{k:'building',l:'ДОМ / ВИЛЛА',p:'д. 5 / Villa 5'},{k:'apt',l:'КВАРТИРА',p:'кв. 12'}]},
-    {id:'apt',   icon:'🏢',lbl:'Квартира',fields:[{k:'complex',l:'ЖК / ЗДАНИЕ',p:'ЖК Солнечный'},{k:'entrance',l:'ПОДЪЕЗД',p:'2'},{k:'floor',l:'ЭТАЖ',p:'7'},{k:'apt',l:'КВАРТИРА',p:'42'}]},
-    {id:'office',icon:'💼',lbl:'Офис',    fields:[{k:'building',l:'БЦ / ЗДАНИЕ',p:'БЦ Москва-Сити'},{k:'floor',l:'ЭТАЖ',p:'12'},{k:'room',l:'ОФИС',p:'305'}]},
-    {id:'other', icon:'📌',lbl:'Другое',  fields:[{k:'details',l:'ОПИСАНИЕ / ОРИЕНТИР',p:'Любые детали...'}]},
+    {id:'home',  icon:'🏠',lbl:'Дом / Вилла', fields:[
+      {k:'villa',  l:'ВИЛЛА / ДОМ',        p:'Вилла 54 / Mimosa Cluster, Villa 63', req:true},
+      {k:'street', l:'УЛИЦА / ОРИЕНТИР',    p:'Jumeirah St, рядом с парком',         req:false},
+    ]},
+    {id:'apt',   icon:'🏢',lbl:'Квартира', fields:[
+      {k:'complex',l:'ЖК / ЗДАНИЕ',         p:'Marina Heights',                      req:true},
+      {k:'apt',    l:'НОМЕР КВАРТИРЫ',       p:'702',                                 req:true},
+      {k:'floor',  l:'ЭТАЖ',                p:'7',                                   req:false},
+      {k:'entrance',l:'ПОДЪЕЗД / ВХОД',     p:'B',                                   req:false},
+    ]},
+    {id:'office',icon:'💼',lbl:'Офис', fields:[
+      {k:'building',l:'БЦ / ЗДАНИЕ',        p:'DIFC Gate Building',                  req:true},
+      {k:'floor',   l:'ЭТАЖ',               p:'12',                                  req:false},
+      {k:'room',    l:'ОФИС / КОМНАТА',      p:'305',                                 req:false},
+    ]},
+    {id:'other', icon:'📌',lbl:'Другое', fields:[
+      {k:'details', l:'ОПИСАНИЕ / ОРИЕНТИР', p:'Любые детали, ориентиры...',          req:true},
+    ]},
   ],
   en:[
-    {id:'home',  icon:'🏠',lbl:'House',    fields:[{k:'building',l:'BUILDING / VILLA',p:'Villa 5'},{k:'apt',l:'APARTMENT',p:'Apt 12'}]},
-    {id:'apt',   icon:'🏢',lbl:'Apartment',fields:[{k:'complex',l:'COMPLEX / TOWER',p:'Marina Heights'},{k:'entrance',l:'ENTRANCE',p:'B'},{k:'floor',l:'FLOOR',p:'7'},{k:'apt',l:'APT',p:'702'}]},
-    {id:'office',icon:'💼',lbl:'Office',   fields:[{k:'building',l:'BUILDING / TOWER',p:'DIFC Gate'},{k:'floor',l:'FLOOR',p:'12'},{k:'room',l:'OFFICE',p:'305'}]},
-    {id:'other', icon:'📌',lbl:'Other',    fields:[{k:'details',l:'DESCRIPTION / LANDMARK',p:'Any details...'}]},
+    {id:'home',  icon:'🏠',lbl:'House / Villa', fields:[
+      {k:'villa',  l:'VILLA / HOUSE',        p:'Villa 54  or  Mimosa Cluster, Villa 63', req:true},
+      {k:'street', l:'STREET / LANDMARK',    p:'Jumeirah St, near the park',             req:false},
+    ]},
+    {id:'apt',   icon:'🏢',lbl:'Apartment', fields:[
+      {k:'complex',l:'BUILDING / COMPLEX',   p:'Marina Heights',                      req:true},
+      {k:'apt',    l:'APARTMENT NUMBER',      p:'702',                                 req:true},
+      {k:'floor',  l:'FLOOR',                p:'7',                                   req:false},
+      {k:'entrance',l:'ENTRANCE / GATE',     p:'B',                                   req:false},
+    ]},
+    {id:'office',icon:'💼',lbl:'Office', fields:[
+      {k:'building',l:'BUILDING / TOWER',    p:'DIFC Gate Building',                  req:true},
+      {k:'floor',   l:'FLOOR',               p:'12',                                  req:false},
+      {k:'room',    l:'OFFICE / UNIT',        p:'305',                                 req:false},
+    ]},
+    {id:'other', icon:'📌',lbl:'Other', fields:[
+      {k:'details', l:'DESCRIPTION / LANDMARK', p:'Any details, landmarks...',        req:true},
+    ]},
   ],
 };
 
@@ -568,9 +598,11 @@ function renderFields(p,tp){
   let html='';
   for(let i=0;i<tp.fields.length;i+=2){
     const a=tp.fields[i],b=tp.fields[i+1];
+    const optA=!a.req?` <span style="color:var(--muted);font-size:8px;font-weight:400">(${lang==='ru'?'необяз.':'optional'})</span>`:'';
+    const optB=b&&!b.req?` <span style="color:var(--muted);font-size:8px;font-weight:400">(${lang==='ru'?'необяз.':'optional'})</span>`:'';
     html+=`<div class="frow">
-      <div><label class="flabel">${a.l}</label><input class="finput" id="f-${p}-${a.k}" type="text" placeholder="${a.p}"></div>
-      ${b?`<div><label class="flabel">${b.l}</label><input class="finput" id="f-${p}-${b.k}" type="text" placeholder="${b.p}"></div>`:''}
+      <div><label class="flabel">${a.l}${optA}</label><input class="finput" id="f-${p}-${a.k}" type="text" placeholder="${a.p}"></div>
+      ${b?`<div><label class="flabel">${b.l}${optB}</label><input class="finput" id="f-${p}-${b.k}" type="text" placeholder="${b.p}"></div>`:''}
     </div>`;
   }
   el_.innerHTML=html;
@@ -582,16 +614,21 @@ function getAddrStr(p){
   if(!sel)return null;
   const tp=types.find(x=>x.id===sel);
   if(!tp)return null;
-  const vals=tp.fields.map(f=>(el('f-'+p+'-'+f.k)?.value||'').trim()).filter(Boolean);
-  if(!vals.length)return null;
-  const parts=[];
+  // Check required fields
+  const missing=tp.fields.filter(f=>f.req&&!(el('f-'+p+'-'+f.k)?.value||'').trim());
+  if(missing.length)return null;
+  // Build full address string — include every filled field with its label
+  const lines=[];
   if(p==='manual'){
-    // Include area name
-    if(selArea!==null){const area=AREAS[lang][selArea];if(area)parts.push(area.lbl);}
-    const s=(el('man-street')?.value||'').trim();if(s)parts.push(s);
+    if(selArea!==null){const area=AREAS[lang][selArea];if(area)lines.push(area.lbl);}
+    const s=(el('man-street')?.value||'').trim();if(s)lines.push(s);
   }
-  vals.forEach(v=>parts.push(v));
-  return tp.icon+' '+tp.lbl+' — '+parts.join(', ');
+  tp.fields.forEach(f=>{
+    const v=(el('f-'+p+'-'+f.k)?.value||'').trim();
+    if(v)lines.push(f.l+': '+v);
+  });
+  if(!lines.length)return null;
+  return tp.icon+' '+tp.lbl+' — '+lines.join(' | ');
 }
 
 // ── GPS ───────────────────────────────────────────────────────────────────────
@@ -858,18 +895,32 @@ function buildProfile(){
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
-let _tt;
+let _tt, _toastIdx=0;
 function showToast(msg,type=''){
   clearTimeout(_tt);
-  const e=el('toast');
-  // Snap off immediately, then turn on next frame
-  e.style.transition='none';
-  e.className='toast'+(type?' '+type:'');  // remove .show instantly
-  void e.offsetWidth;                       // flush
-  e.style.transition='';                    // restore transition
+  // Use two alternating toast elements — when one fades out the other shows fresh
+  _toastIdx=1-_toastIdx;
+  const id='toast'+_toastIdx;
+  // Make sure both exist
+  ['toast0','toast1'].forEach(tid=>{
+    if(!el(tid)){
+      const d=document.createElement('div');
+      d.id=tid; d.className='toast';
+      document.body.appendChild(d);
+    }
+  });
+  // Hide the OTHER one immediately
+  const other=el('toast'+(1-_toastIdx));
+  if(other){other.className='toast';}
+  // Show this one
+  const e=el(id);
+  e.className='toast'; // reset
   e.textContent=msg;
-  e.classList.add('show');
-  _tt=setTimeout(()=>e.classList.remove('show'),2600);
+  // Small delay so browser registers the class removal before adding .show
+  setTimeout(()=>{
+    e.className='toast'+(type?' '+type:'')+' show';
+  },16);
+  _tt=setTimeout(()=>{e.classList.remove('show');},2700);
 }
 </script>
 </body>
