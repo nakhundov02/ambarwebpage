@@ -494,27 +494,38 @@ function showToast(msg,type=''){
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
+const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
+
+async function fetchData(){
+  try {
+    const res = await fetch(ORDERS_URL + '?t=' + Date.now());
+    if(res.ok){
+      const data = await res.json();
+      allOrders = Object.values(data);
+      localStorage.setItem('ambar_admin_orders', JSON.stringify(allOrders));
+    }
+  } catch(e){
+    try {
+      const raw = localStorage.getItem('ambar_admin_orders');
+      if(raw) allOrders = JSON.parse(raw);
+    } catch(e2){}
+  }
+  buildOverview();
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
-  // Request initial data from bot
-  sendAction({action:'admin_data_request'});
-
-  // Listen for bot messages
-  window.addEventListener('message', e=>{
-    try{ const d=JSON.parse(e.data); if(d.type==='admin_data') receiveData(d); }catch(e2){}
-  });
-
-  // Load demo/cached data
   try{
-    const raw=localStorage.getItem('ambar_admin_data');
-    if(raw){ const d=JSON.parse(raw); receiveData(d); }
+    const raw=localStorage.getItem('ambar_admin_orders');
+    if(raw) allOrders = JSON.parse(raw);
   }catch(e){}
 
   buildOverview();
+  fetchData();
 
   if(tg?.MainButton){
-    tg.MainButton.setText('↻ Обновить данные');
+    tg.MainButton.setText('↻ Обновить');
     tg.MainButton.show();
-    tg.MainButton.onClick(()=>sendAction({action:'admin_data_request'}));
+    tg.MainButton.onClick(()=>fetchData());
   }
 });
 </script>
