@@ -479,8 +479,7 @@ function receiveData(data){
 }
 
 function sendAction(payload){
-  // Never use sendData — it closes the app
-  console.log('ADMIN ACTION:', payload);
+  console.log('ADMIN ACTION:', payload); // no sendData - never closes app
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
@@ -493,7 +492,7 @@ function showToast(msg,type=''){
   _tt=setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// ── DATA FETCH ────────────────────────────────────────────────────────────────
+// ── FETCH ORDERS FROM GITHUB ─────────────────────────────────────────────────
 const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
 
 async function fetchOrders(){
@@ -501,31 +500,32 @@ async function fetchOrders(){
   if(btn){btn.textContent='⟳...';btn.disabled=true;}
   try {
     const res = await fetch(ORDERS_URL + '?t=' + Date.now());
-    if(res.ok){
-      const data = await res.json();
-      allOrders = Object.values(data);
+    const text = await res.text();
+    if(text.trim().startsWith('{') || text.trim().startsWith('[')) {
+      const data = JSON.parse(text);
+      allOrders = Array.isArray(data) ? data : Object.values(data);
       localStorage.setItem('ambar_admin_cache', JSON.stringify(allOrders));
     }
-  } catch(e){
-    try{
-      const raw = localStorage.getItem('ambar_admin_cache');
-      if(raw) allOrders = JSON.parse(raw);
-    }catch(e2){}
-  }
+  } catch(e){ /* use cache */ }
+  try{
+    if(!allOrders.length){
+      const raw=localStorage.getItem('ambar_admin_cache');
+      if(raw) allOrders=JSON.parse(raw);
+    }
+  }catch(e2){}
   if(btn){btn.textContent='↻ Обновить';btn.disabled=false;}
   buildOverview();
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded',()=>{
-  // Load cached data immediately so UI isn't blank
   try{
     const raw=localStorage.getItem('ambar_admin_cache');
     if(raw) allOrders=JSON.parse(raw);
   }catch(e){}
 
   buildOverview();
-  fetchOrders(); // fetch fresh data in background
+  fetchOrders();
 
   if(tg?.MainButton){
     tg.MainButton.setText('↻ Обновить');
