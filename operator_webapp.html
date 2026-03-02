@@ -217,7 +217,6 @@ function go(p){
 const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
 
 async function loadOrders(){
-  // Try fetching live orders.json from GitHub (push orders.json to repo to sync)
   try {
     const res = await fetch(ORDERS_URL + '?t=' + Date.now());
     if(res.ok){
@@ -226,7 +225,6 @@ async function loadOrders(){
       localStorage.setItem('ambar_op_orders', JSON.stringify(allOrders));
     }
   } catch(e){
-    // Fallback to localStorage cache
     try {
       const raw = localStorage.getItem('ambar_op_orders');
       if(raw) allOrders = JSON.parse(raw);
@@ -416,7 +414,6 @@ function confirmAccept(oid, cid, eta, e){
   sendAction({action:'op_accept', order_id:oid, customer_id:cid, eta, operator_id:opId, operator_name:opName});
   updateLocalOrder(oid,{status:'approved',eta,operator_id:opId,updated_at:new Date().toISOString()});
   showToast(`✅ Заказ #${oid} принят — ${eta} мин`,'ok');
-  loadOrders();
 }
 
 function declineOrder(oid, cid, e){
@@ -425,7 +422,6 @@ function declineOrder(oid, cid, e){
   sendAction({action:'op_decline', order_id:oid, customer_id:cid, operator_id:opId});
   updateLocalOrder(oid,{status:'declined',updated_at:new Date().toISOString()});
   showToast(`❌ Заказ #${oid} отклонён`,'err');
-  loadOrders();
 }
 
 function markDelivered(oid, cid, e){
@@ -433,7 +429,6 @@ function markDelivered(oid, cid, e){
   sendAction({action:'op_delivered', order_id:oid, customer_id:cid, operator_id:opId});
   updateLocalOrder(oid,{status:'delivered',updated_at:new Date().toISOString()});
   showToast(`✅ Заказ #${oid} доставлен`,'ok');
-  loadOrders();
 }
 
 function openMap(lat, lon){
@@ -448,8 +443,13 @@ function updateLocalOrder(oid, kv){
 }
 
 function sendAction(payload){
-  if(tg?.sendData){ try{tg.sendData(JSON.stringify(payload));}catch(e){console.warn('sendData',e);} }
-  else console.log('ACTION:', payload);
+  // sendData sends to bot AND closes the app - this is correct for operator actions
+  // Operator reopens the panel after each accept/decline/deliver
+  if(tg?.sendData){
+    try{ tg.sendData(JSON.stringify(payload)); }catch(e){ console.warn('sendData',e); }
+  } else {
+    console.log('ACTION:', payload);
+  }
 }
 
 // ── COUNTDOWN ─────────────────────────────────────────────────────────────────
