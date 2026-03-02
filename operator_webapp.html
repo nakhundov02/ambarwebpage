@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AMBAR — Operator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --gold:#C9A96E;--gold2:#E8C98A;--gold3:#F5E0B0;
+  --bg:#07070E;--bg2:#0C0C18;--bg3:#111120;
+  --card:#121224;--card2:#161628;
+  --border:rgba(201,169,110,.16);--border2:rgba(255,255,255,.06);
+  --text:#EDE9E0;--sub:#9896AA;--muted:#54526A;
+  --red:#E05555;--green:#4CAF7D;--orange:#F0A040;
+  --r:16px;--r2:12px;--r3:10px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;height:100%;overflow:hidden}
+button,input{font-family:'Outfit',sans-serif;outline:none}
+
+/* LAYOUT */
+.page{position:fixed;inset:0;bottom:calc(60px + var(--safe-bottom));overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;opacity:1;transition:opacity .2s,transform .2s}
+.page.hidden{opacity:0;pointer-events:none;transform:translateY(8px)}
+.hdr{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(7,7,14,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;letter-spacing:5px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sub{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:-2px}
+.hdr-right{display:flex;gap:8px;align-items:center}
+.office-badge{font-size:10px;font-weight:600;color:var(--gold);background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);padding:5px 10px;border-radius:50px}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;background:rgba(7,7,14,.97);border-top:1px solid var(--border);padding-bottom:var(--safe-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;gap:3px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:.15s}
+.nb.on{color:var(--gold)}
+.nb i{font-size:20px;line-height:1}
+.nb span{font-size:9px;letter-spacing:.5px;font-weight:500}
+.nb-badge{position:absolute;top:6px;right:calc(50% - 18px);background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:8px;font-weight:700;display:none;align-items:center;justify-content:center}
+.nb-badge.show{display:flex}
+.nb{position:relative}
+
+/* SECTION HEADERS */
+.sec-h{padding:12px 14px 8px;font-family:'Cormorant Garamond',serif;font-size:20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 14px}
+.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:14px 13px}
+.stat-card.gold{border-color:rgba(201,169,110,.25);background:rgba(201,169,110,.06)}
+.stat-icon{font-size:22px;margin-bottom:6px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1}
+.stat-val small{font-size:12px;font-weight:400;color:var(--muted)}
+.stat-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;font-weight:600}
+
+/* ORDER CARDS */
+.order-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);margin:0 12px 10px;overflow:hidden;transition:.15s}
+.order-card.pending{border-left:3px solid var(--orange)}
+.order-card.approved{border-left:3px solid var(--green)}
+.order-card.delivered{border-left:3px solid rgba(76,175,125,.4)}
+.order-card.declined{border-left:3px solid rgba(224,85,85,.4)}
+.oc-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--border2);cursor:pointer}
+.oc-id{font-size:12px;font-weight:700;color:var(--gold2)}
+.oc-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.oc-status{font-size:10px;font-weight:600;padding:4px 10px;border-radius:50px}
+.st-pending{background:rgba(240,160,64,.1);color:var(--orange);border:1px solid rgba(240,160,64,.2)}
+.st-approved{background:rgba(76,175,125,.1);color:var(--green);border:1px solid rgba(76,175,125,.2)}
+.st-delivered{background:rgba(76,175,125,.15);color:var(--green);border:1px solid rgba(76,175,125,.25)}
+.st-declined{background:rgba(224,85,85,.1);color:var(--red);border:1px solid rgba(224,85,85,.2)}
+.oc-body{padding:12px 13px;display:none}
+.oc-body.open{display:block}
+.oc-line{font-size:12px;color:var(--sub);margin-bottom:4px;line-height:1.5}
+.oc-line strong{color:var(--text);font-weight:600}
+.oc-items{font-size:11px;color:var(--muted);padding:8px 0;border-top:1px solid var(--border2);margin-top:6px;line-height:1.8}
+.oc-total{font-size:15px;font-weight:700;color:var(--gold2);margin-top:6px}
+.oc-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn-sm{padding:9px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
+.btn-sm:active{transform:scale(.93)}
+.btn-green{background:rgba(76,175,125,.15);color:var(--green);border:1px solid rgba(76,175,125,.3)}
+.btn-red{background:rgba(224,85,85,.1);color:var(--red);border:1px solid rgba(224,85,85,.25)}
+.btn-gold{background:rgba(201,169,110,.12);color:var(--gold);border:1px solid rgba(201,169,110,.25)}
+.btn-sub{background:var(--bg3);color:var(--sub);border:1px solid var(--border2)}
+
+/* ETA PICKER */
+.eta-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.eta-chip{padding:8px 13px;border-radius:50px;border:1px solid var(--border2);background:transparent;color:var(--sub);font-size:12px;font-weight:500;cursor:pointer;transition:.15s}
+.eta-chip:active{background:rgba(201,169,110,.12);border-color:var(--gold);color:var(--gold)}
+.eta-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:10px;margin-bottom:4px}
+
+/* FILTER CHIPS */
+.filter-row{display:flex;gap:7px;padding:8px 14px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.filter-row::-webkit-scrollbar{display:none}
+.fchip{white-space:nowrap;padding:7px 14px;border-radius:50px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;transition:.15s}
+.fchip.on{background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-weight:700}
+
+/* EMPTY */
+.empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.3}
+
+/* REFRESH BTN */
+.refresh-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 14px 2px}
+.refresh-btn{font-size:11px;font-weight:600;color:var(--gold);background:transparent;border:none;cursor:pointer;padding:4px 8px;border-radius:8px}
+.refresh-btn:active{background:rgba(201,169,110,.1)}
+.last-upd{font-size:10px;color:var(--muted)}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(70px + var(--safe-bottom));left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:50px;font-size:12px;white-space:nowrap;z-index:500;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+.toast.show{opacity:1;visibility:visible}
+.toast.ok{border-color:var(--green);color:#90e8b8}
+.toast.err{border-color:var(--red);color:#f0a0a0}
+
+/* COUNTDOWN BADGE */
+.countdown-badge{font-size:11px;font-weight:700;color:var(--green);background:rgba(76,175,125,.1);border:1px solid rgba(76,175,125,.2);padding:3px 9px;border-radius:50px;margin-left:8px}
+
+/* LOADING */
+.loading{text-align:center;padding:40px;color:var(--muted)}
+.spinner{display:inline-block;width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="pg-dash" class="page">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Operator Panel</div></div>
+    <div class="hdr-right">
+      <div class="office-badge" id="op-office-badge">Loading...</div>
+    </div>
+  </div>
+  <div class="sec-h">📊 Сегодня</div>
+  <div class="stats-grid" id="dash-stats"></div>
+  <div class="sec-h">🔴 Требуют внимания</div>
+  <div id="dash-pending-list"></div>
+</div>
+
+<!-- ═══ NEW ORDERS ═══ -->
+<div id="pg-new" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Новые заказы</div></div>
+    <div class="hdr-right"><div class="office-badge" id="op-office-badge2">—</div></div>
+  </div>
+  <div class="refresh-bar">
+    <span class="last-upd" id="new-upd">—</span>
+    <button class="refresh-btn" onclick="loadOrders()">↻ Обновить</button>
+  </div>
+  <div id="new-orders-list"></div>
+</div>
+
+<!-- ═══ ACTIVE ORDERS ═══ -->
+<div id="pg-active" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Активные</div></div>
+    <div class="hdr-right"><div class="office-badge" id="op-office-badge3">—</div></div>
+  </div>
+  <div class="refresh-bar">
+    <span class="last-upd" id="active-upd">—</span>
+    <button class="refresh-btn" onclick="loadOrders()">↻ Обновить</button>
+  </div>
+  <div id="active-orders-list"></div>
+</div>
+
+<!-- ═══ HISTORY ═══ -->
+<div id="pg-history" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">История</div></div>
+  </div>
+  <div class="filter-row" id="hist-filters">
+    <button class="fchip on" onclick="setHistFilter('all',this)">Все</button>
+    <button class="fchip" onclick="setHistFilter('delivered',this)">✅ Доставлено</button>
+    <button class="fchip" onclick="setHistFilter('declined',this)">❌ Отменено</button>
+    <button class="fchip" onclick="setHistFilter('today',this)">Сегодня</button>
+  </div>
+  <div id="history-list"></div>
+</div>
+
+<!-- NAV -->
+<div class="bnav">
+  <button class="nb on" id="nb-dash" onclick="go('dash')"><i>📊</i><span>Главная</span></button>
+  <button class="nb" id="nb-new" onclick="go('new')"><i>🆕</i><span>Новые</span><span class="nb-badge" id="new-badge">0</span></button>
+  <button class="nb" id="nb-active" onclick="go('active')"><i>🚚</i><span>Активные</span><span class="nb-badge" id="active-badge">0</span></button>
+  <button class="nb" id="nb-history" onclick="go('history')"><i>📦</i><span>История</span></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tg = window.Telegram?.WebApp || null;
+if(tg){tg.ready();tg.expand();tg.setHeaderColor&&tg.setHeaderColor('#07070E');tg.setBackgroundColor&&tg.setBackgroundColor('#07070E');}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allOrders = [];
+let opId = tg?.initDataUnsafe?.user?.id || null;
+let opName = tg?.initDataUnsafe?.user?.first_name || 'Operator';
+let histFilter = 'all';
+let countdowns = {}; // oid → {end, interval}
+
+const STATUS_LABELS = {pending:'🟡 Ожидает',approved:'🟢 Принят',delivered:'✅ Доставлен',declined:'❌ Отклонён'};
+const STATUS_CLS = {pending:'st-pending',approved:'st-approved',delivered:'st-delivered',declined:'st-declined'};
+
+// ── PAGES ─────────────────────────────────────────────────────────────────────
+const PAGES = ['dash','new','active','history'];
+let curPg = 'dash';
+function go(p){
+  PAGES.forEach(id=>{
+    document.getElementById('pg-'+id)?.classList.toggle('hidden',id!==p);
+    document.getElementById('nb-'+id)?.classList.toggle('on',id===p);
+  });
+  curPg=p;
+  if(p==='dash') buildDash();
+  if(p==='new') renderNewOrders();
+  if(p==='active') renderActiveOrders();
+  if(p==='history') renderHistory();
+}
+
+// ── DATA LOAD ─────────────────────────────────────────────────────────────────
+async function loadOrders(){
+  // In real deploy: fetch from your server API. 
+  // Here we use tg.sendData to request data, and listen for response via tg events.
+  // For demo: try to load from localStorage (synced by bot via webhook or shared storage)
+  try {
+    const raw = localStorage.getItem('ambar_op_orders');
+    if(raw) allOrders = JSON.parse(raw);
+  } catch(e){}
+  
+  // Send a sync request to the bot so it can push fresh data
+  if(tg?.sendData){
+    try{ tg.sendData(JSON.stringify({action:'op_sync', operator_id: opId})); }catch(e){}
+  }
+
+  const now = new Date().toLocaleTimeString('ru');
+  document.getElementById('new-upd').textContent = 'Обновлено: '+now;
+  document.getElementById('active-upd').textContent = 'Обновлено: '+now;
+
+  buildDash();
+  renderNewOrders();
+  renderActiveOrders();
+  renderHistory();
+  updateBadges();
+}
+
+function receiveOrders(orders){
+  // Called when bot pushes fresh order data (via tg WebApp events or polling)
+  allOrders = orders;
+  localStorage.setItem('ambar_op_orders', JSON.stringify(orders));
+  buildDash();renderNewOrders();renderActiveOrders();renderHistory();updateBadges();
+}
+
+// Listen for messages from bot via Telegram WebApp events
+if(tg){
+  tg.onEvent('mainButtonClicked', ()=>{loadOrders();});
+  // Receive data from bot
+  window.addEventListener('message', e=>{
+    try{
+      const d = JSON.parse(e.data);
+      if(d.type === 'orders') receiveOrders(d.orders);
+    }catch(e2){}
+  });
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function buildDash(){
+  const today = new Date().toISOString().slice(0,10);
+  const tod = allOrders.filter(o=>o.timestamp?.startsWith(today));
+  const myOrders = allOrders.filter(o=>!opId||!o.operator_id||o.operator_id==opId);
+
+  const stats = [
+    {icon:'🆕', val: tod.filter(o=>o.status==='pending').length,   lbl:'Новых сегодня',    cls:''},
+    {icon:'🚚', val: allOrders.filter(o=>o.status==='approved').length, lbl:'В доставке', cls:'gold'},
+    {icon:'✅', val: tod.filter(o=>o.status==='delivered').length,  lbl:'Доставлено сегодня', cls:''},
+    {icon:'💰', val: tod.filter(o=>o.status==='delivered').reduce((s,o)=>s+(o.total||0),0)+' AED', lbl:'Выручка сегодня', cls:'gold'},
+  ];
+
+  document.getElementById('dash-stats').innerHTML = stats.map(s=>`
+    <div class="stat-card ${s.cls}">
+      <div class="stat-icon">${s.icon}</div>
+      <div class="stat-val">${s.val}</div>
+      <div class="stat-lbl">${s.lbl}</div>
+    </div>
+  `).join('');
+
+  // Pending orders requiring attention
+  const pending = allOrders.filter(o=>o.status==='pending');
+  const wrap = document.getElementById('dash-pending-list');
+  if(!pending.length){
+    wrap.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><div>Нет заказов ожидающих обработки</div></div>`;
+    return;
+  }
+  wrap.innerHTML = pending.slice(0,5).map(o=>orderCard(o,true)).join('');
+}
+
+// ── ORDER CARDS ───────────────────────────────────────────────────────────────
+function orderCard(o, compact=false){
+  const st = STATUS_CLS[o.status] || 'st-pending';
+  const stLbl = STATUS_LABELS[o.status] || o.status;
+  const ts = o.timestamp?o.timestamp.slice(0,16).replace('T',' '):'';
+  const itemsStr = (o.items||[]).map(i=>`${i.name} ×${i.qty}`).join(' · ');
+  const etaHtml = o.eta && o.status==='approved' ? `<span class="countdown-badge" id="cd-${o.order_id}">⏱ ...</span>` : '';
+
+  return `<div class="order-card ${o.status}" id="oc-${o.order_id}">
+    <div class="oc-head" onclick="toggleCard('${o.order_id}')">
+      <div>
+        <div class="oc-id">#${o.order_id} ${etaHtml}</div>
+        <div class="oc-meta">${ts} · ${o.office_name||'—'} · ${o.total||0} AED</div>
+      </div>
+      <span class="oc-status ${st}">${stLbl}</span>
+    </div>
+    <div class="oc-body${compact?'':' open'}" id="ocb-${o.order_id}">
+      <div class="oc-line"><strong>👤</strong> ${o.customer_name||'—'} · <strong>📞</strong> ${o.phone||'—'}</div>
+      <div class="oc-line"><strong>🏠</strong> ${o.address||'—'}</div>
+      ${o.comment?`<div class="oc-line"><strong>💬</strong> ${o.comment}</div>`:''}
+      <div class="oc-items">${itemsStr}</div>
+      ${o.tip?`<div class="oc-line" style="margin-top:4px"><strong>🎁 Чаевые:</strong> ${o.tip} AED</div>`:''}
+      <div class="oc-total">💰 ${o.total||0} AED</div>
+      <div class="oc-actions">${actionBtns(o)}</div>
+    </div>
+  </div>`;
+}
+
+function actionBtns(o){
+  const oid=o.order_id, cid=o.customer_id;
+  if(o.status==='pending'){
+    return `<button class="btn-sm btn-green" onclick="acceptOrder('${oid}','${cid}',event)">✅ Принять</button>
+            <button class="btn-sm btn-red" onclick="declineOrder('${oid}','${cid}',event)">❌ Отклонить</button>
+            ${o.location?.lat?`<button class="btn-sm btn-sub" onclick="openMap('${o.location.lat}','${o.location.lon}')">📍 Карта</button>`:''}`;
+  }
+  if(o.status==='approved'){
+    return `<button class="btn-sm btn-gold" onclick="markDelivered('${oid}','${cid}',event)">🏁 Доставлено</button>
+            ${o.location?.lat?`<button class="btn-sm btn-sub" onclick="openMap('${o.location.lat}','${o.location.lon}')">📍 Карта</button>`:''}`;
+  }
+  if(o.location?.lat){
+    return `<button class="btn-sm btn-sub" onclick="openMap('${o.location.lat}','${o.location.lon}')">📍 Карта</button>`;
+  }
+  return '';
+}
+
+function toggleCard(oid){
+  const b = document.getElementById('ocb-'+oid);
+  if(b) b.classList.toggle('open');
+}
+
+// ── RENDERS ───────────────────────────────────────────────────────────────────
+function renderNewOrders(){
+  const orders = allOrders.filter(o=>o.status==='pending').sort((a,b)=>b.timestamp?.localeCompare(a.timestamp||'')||0);
+  const wrap = document.getElementById('new-orders-list');
+  if(!wrap)return;
+  if(!orders.length){wrap.innerHTML=`<div class="empty"><div class="empty-icon">🆕</div><div>Новых заказов нет</div></div>`;return;}
+  wrap.innerHTML = orders.map(o=>orderCard(o,false)).join('');
+}
+
+function renderActiveOrders(){
+  const orders = allOrders.filter(o=>o.status==='approved').sort((a,b)=>b.timestamp?.localeCompare(a.timestamp||'')||0);
+  const wrap = document.getElementById('active-orders-list');
+  if(!wrap)return;
+  if(!orders.length){wrap.innerHTML=`<div class="empty"><div class="empty-icon">🚚</div><div>Активных заказов нет</div></div>`;return;}
+  wrap.innerHTML = orders.map(o=>orderCard(o,false)).join('');
+  // Start countdowns for approved orders with eta
+  orders.forEach(o=>{
+    if(o.eta && o.updated_at) startCountdown(o);
+  });
+}
+
+function renderHistory(){
+  let orders = allOrders.filter(o=>['delivered','declined'].includes(o.status));
+  const today = new Date().toISOString().slice(0,10);
+  if(histFilter==='delivered') orders = orders.filter(o=>o.status==='delivered');
+  if(histFilter==='declined')  orders = orders.filter(o=>o.status==='declined');
+  if(histFilter==='today')     orders = orders.filter(o=>o.timestamp?.startsWith(today));
+  orders.sort((a,b)=>b.timestamp?.localeCompare(a.timestamp||'')||0);
+  const wrap = document.getElementById('history-list');
+  if(!wrap)return;
+  if(!orders.length){wrap.innerHTML=`<div class="empty"><div class="empty-icon">📦</div><div>Заказов нет</div></div>`;return;}
+  wrap.innerHTML = orders.slice(0,50).map(o=>orderCard(o,true)).join('');
+}
+
+function setHistFilter(f, btn){
+  histFilter=f;
+  document.querySelectorAll('.fchip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderHistory();
+}
+
+function updateBadges(){
+  const np = allOrders.filter(o=>o.status==='pending').length;
+  const na = allOrders.filter(o=>o.status==='approved').length;
+  const nb = document.getElementById('new-badge');
+  const ab = document.getElementById('active-badge');
+  if(nb){nb.textContent=np;nb.classList.toggle('show',np>0);}
+  if(ab){ab.textContent=na;ab.classList.toggle('show',na>0);}
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+function acceptOrder(oid, cid, e){
+  e?.stopPropagation();
+  // Show ETA picker inline
+  const body = document.getElementById('ocb-'+oid);
+  if(!body) return;
+  const etaDiv = body.querySelector('.eta-section');
+  if(etaDiv){etaDiv.remove();return;}
+  const d = document.createElement('div');
+  d.className='eta-section';
+  d.innerHTML=`<div class="eta-label">⏱ ВРЕМЯ ДОСТАВКИ (минуты)</div>
+    <div class="eta-row">
+      ${[20,30,45,60,90,120].map(t=>`<button class="eta-chip" onclick="confirmAccept('${oid}','${cid}',${t},event)">${t} мин</button>`).join('')}
+    </div>`;
+  body.appendChild(d);
+}
+
+function confirmAccept(oid, cid, eta, e){
+  e?.stopPropagation();
+  sendAction({action:'op_accept', order_id:oid, customer_id:cid, eta, operator_id:opId, operator_name:opName});
+  updateLocalOrder(oid,{status:'approved',eta,operator_id:opId,updated_at:new Date().toISOString()});
+  showToast(`✅ Заказ #${oid} принят — ${eta} мин`,'ok');
+  loadOrders();
+}
+
+function declineOrder(oid, cid, e){
+  e?.stopPropagation();
+  if(!confirm(`Отклонить заказ #${oid}?`)) return;
+  sendAction({action:'op_decline', order_id:oid, customer_id:cid, operator_id:opId});
+  updateLocalOrder(oid,{status:'declined',updated_at:new Date().toISOString()});
+  showToast(`❌ Заказ #${oid} отклонён`,'err');
+  loadOrders();
+}
+
+function markDelivered(oid, cid, e){
+  e?.stopPropagation();
+  sendAction({action:'op_delivered', order_id:oid, customer_id:cid, operator_id:opId});
+  updateLocalOrder(oid,{status:'delivered',updated_at:new Date().toISOString()});
+  showToast(`✅ Заказ #${oid} доставлен`,'ok');
+  loadOrders();
+}
+
+function openMap(lat, lon){
+  if(tg) tg.openLink(`https://maps.google.com/maps?q=${lat},${lon}`);
+  else window.open(`https://maps.google.com/maps?q=${lat},${lon}`);
+}
+
+function updateLocalOrder(oid, kv){
+  allOrders = allOrders.map(o=>o.order_id===oid?{...o,...kv}:o);
+  localStorage.setItem('ambar_op_orders', JSON.stringify(allOrders));
+  updateBadges();
+}
+
+function sendAction(payload){
+  if(tg?.sendData){ try{tg.sendData(JSON.stringify(payload));}catch(e){console.warn('sendData',e);} }
+  else console.log('ACTION:', payload);
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────────────────────────────
+function startCountdown(o){
+  const oid = o.order_id;
+  if(countdowns[oid]) return;
+  const updated = new Date(o.updated_at).getTime();
+  const endTime = updated + (o.eta||30)*60*1000;
+  const interval = setInterval(()=>{
+    const rem = Math.max(0, Math.round((endTime - Date.now())/1000));
+    const el = document.getElementById('cd-'+oid);
+    if(!el){clearInterval(interval);delete countdowns[oid];return;}
+    if(rem<=0){el.textContent='⏱ Прибыл!';}
+    else{const m=Math.floor(rem/60),s=rem%60;el.textContent=`⏱ ${m}:${s.toString().padStart(2,'0')}`;}
+  },1000);
+  countdowns[oid]=interval;
+}
+
+// ── OFFICE BADGE ──────────────────────────────────────────────────────────────
+function setOfficeBadges(name){
+  ['op-office-badge','op-office-badge2','op-office-badge3'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.textContent = name;
+  });
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let _tt;
+function showToast(msg,type=''){
+  clearTimeout(_tt);
+  const t=document.getElementById('toast');
+  t.className='toast';t.textContent=msg;
+  setTimeout(()=>{t.className='toast'+(type?' '+type:'')+' show';},16);
+  _tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  // Try to get office from tg start_param or userData
+  const startParam = tg?.initDataUnsafe?.start_param || '';
+  let officeName = 'Все офисы';
+  if(startParam.startsWith('off_')) officeName = decodeURIComponent(startParam.slice(4));
+  setOfficeBadges(officeName);
+
+  // Auto-refresh every 30 seconds
+  loadOrders();
+  setInterval(loadOrders, 30000);
+
+  // If tg MainButton available, use for refresh
+  if(tg?.MainButton){
+    tg.MainButton.setText('↻ Обновить заказы');
+    tg.MainButton.show();
+  }
+});
+</script>
+</body>
+</html>

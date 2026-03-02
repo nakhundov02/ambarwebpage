@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AMBAR — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --gold:#C9A96E;--gold2:#E8C98A;--gold3:#F5E0B0;
+  --bg:#07070E;--bg2:#0C0C18;--bg3:#111120;
+  --card:#121224;--card2:#161628;
+  --border:rgba(201,169,110,.16);--border2:rgba(255,255,255,.06);
+  --text:#EDE9E0;--sub:#9896AA;--muted:#54526A;
+  --red:#E05555;--green:#4CAF7D;--orange:#F0A040;--blue:#5599EE;
+  --r:16px;--r2:12px;--r3:10px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;height:100%;overflow:hidden}
+button,input,select{font-family:'Outfit',sans-serif;outline:none}
+
+/* LAYOUT */
+.page{position:fixed;inset:0;bottom:calc(60px + var(--safe-bottom));overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;opacity:1;transition:opacity .2s,transform .2s}
+.page.hidden{opacity:0;pointer-events:none;transform:translateY(8px)}
+.hdr{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(7,7,14,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;letter-spacing:5px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sub{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:-2px}
+.admin-crown{font-size:20px}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;background:rgba(7,7,14,.97);border-top:1px solid var(--border);padding-bottom:var(--safe-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;gap:3px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:.15s}
+.nb.on{color:var(--gold)}
+.nb i{font-size:20px;line-height:1}
+.nb span{font-size:9px;letter-spacing:.5px;font-weight:500}
+
+/* SECTION HEADERS */
+.sec-h{padding:12px 14px 8px;font-family:'Cormorant Garamond',serif;font-size:20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+
+/* PERIOD SELECTOR */
+.period-row{display:flex;gap:6px;padding:8px 14px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.period-row::-webkit-scrollbar{display:none}
+.pchip{white-space:nowrap;padding:7px 14px;border-radius:50px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;transition:.15s}
+.pchip.on{background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-weight:700}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 14px 12px}
+.stats-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:4px 14px 12px}
+.stat-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:14px 13px}
+.stat-card.gold{border-color:rgba(201,169,110,.3);background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.03))}
+.stat-card.blue{border-color:rgba(85,153,238,.25);background:rgba(85,153,238,.04)}
+.stat-card.green{border-color:rgba(76,175,125,.25);background:rgba(76,175,125,.04)}
+.stat-icon{font-size:22px;margin-bottom:6px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1}
+.stat-val.big{font-size:32px}
+.stat-val small{font-size:11px;font-weight:400;color:var(--muted)}
+.stat-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;font-weight:600}
+.stat-trend{font-size:10px;margin-top:4px;font-weight:600}
+.stat-trend.up{color:var(--green)}
+.stat-trend.down{color:var(--red)}
+
+/* BAR CHART */
+.bar-chart{padding:8px 14px 14px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.bar-label{font-size:10px;color:var(--muted);width:60px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s cubic-bezier(.4,0,.2,1)}
+.bar-val{font-size:10px;font-weight:700;color:var(--gold2);width:60px;flex-shrink:0}
+
+/* OPERATOR CARDS */
+.op-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);margin:0 14px 10px;padding:14px}
+.op-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.op-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;color:#07070E;font-weight:700;font-size:14px;flex-shrink:0}
+.op-name{font-size:14px;font-weight:600}
+.op-office{font-size:10px;color:var(--gold);font-weight:600;margin-top:2px}
+.op-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.op-stat{background:var(--bg3);border-radius:var(--r3);padding:9px 8px;text-align:center}
+.op-stat-val{font-size:16px;font-weight:700;color:var(--gold2)}
+.op-stat-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:2px;font-weight:600}
+
+/* ORDER TABLE */
+.order-row{display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border2);gap:10px}
+.order-row-id{font-size:12px;font-weight:700;color:var(--gold2);width:80px;flex-shrink:0}
+.order-row-info{flex:1;min-width:0}
+.order-row-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order-row-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.order-row-total{font-size:13px;font-weight:700;color:var(--gold2);flex-shrink:0}
+.st-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;flex-shrink:0}
+.st-dot.pending{background:var(--orange)}
+.st-dot.approved{background:var(--green)}
+.st-dot.delivered{background:var(--green);opacity:.6}
+.st-dot.declined{background:var(--red)}
+
+/* TOP PRODUCTS */
+.prod-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border2)}
+.prod-rank{font-size:14px;font-weight:700;color:var(--gold);width:20px;flex-shrink:0;text-align:center}
+.prod-name{flex:1;font-size:13px;font-weight:500}
+.prod-qty{font-size:12px;font-weight:700;color:var(--gold2)}
+.prod-rev{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* TOGGLE TAB */
+.tab-row{display:flex;gap:0;background:var(--bg3);border-radius:var(--r2);margin:0 14px 10px;padding:3px}
+.tab-btn{flex:1;padding:9px 4px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:.15s;text-align:center}
+.tab-btn.on{background:var(--card2);color:var(--gold)}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-icon{font-size:44px;margin-bottom:12px;opacity:.3}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(70px + var(--safe-bottom));left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:50px;font-size:12px;white-space:nowrap;z-index:500;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+.toast.show{opacity:1;visibility:visible}
+.toast.ok{border-color:var(--green);color:#90e8b8}
+</style>
+</head>
+<body>
+
+<!-- ═══ OVERVIEW ═══ -->
+<div id="pg-overview" class="page">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Admin Panel</div></div>
+    <div class="hdr-right"><span class="admin-crown">👑</span></div>
+  </div>
+  
+  <!-- Period selector -->
+  <div class="period-row" id="period-row">
+    <button class="pchip on" onclick="setPeriod('today',this)">Сегодня</button>
+    <button class="pchip" onclick="setPeriod('week',this)">7 дней</button>
+    <button class="pchip" onclick="setPeriod('month',this)">Месяц</button>
+    <button class="pchip" onclick="setPeriod('year',this)">Год</button>
+    <button class="pchip" onclick="setPeriod('all',this)">Всё время</button>
+  </div>
+
+  <div class="sec-h">💰 Выручка</div>
+  <div class="stats-grid" id="rev-stats"></div>
+
+  <div class="sec-h">📦 Заказы</div>
+  <div class="stats-grid" id="ord-stats"></div>
+
+  <div class="sec-h">📅 По дням (7 дней)</div>
+  <div class="bar-chart" id="daily-chart"></div>
+
+  <div class="sec-h">🏆 Топ товары</div>
+  <div id="top-products"></div>
+</div>
+
+<!-- ═══ OPERATORS ═══ -->
+<div id="pg-operators" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Операторы</div></div>
+    <div class="hdr-right"><span class="admin-crown">👑</span></div>
+  </div>
+  <div class="period-row" id="op-period-row">
+    <button class="pchip on" onclick="setOpPeriod('today',this)">Сегодня</button>
+    <button class="pchip" onclick="setOpPeriod('week',this)">7 дней</button>
+    <button class="pchip" onclick="setOpPeriod('month',this)">Месяц</button>
+    <button class="pchip" onclick="setOpPeriod('year',this)">Год</button>
+  </div>
+  <div class="sec-h">👤 Статистика операторов</div>
+  <div id="op-cards"></div>
+</div>
+
+<!-- ═══ ORDERS ═══ -->
+<div id="pg-orders" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Все заказы</div></div>
+    <div class="hdr-right"><span class="admin-crown">👑</span></div>
+  </div>
+  <div class="tab-row">
+    <button class="tab-btn on" onclick="setOrderTab('all',this)">Все</button>
+    <button class="tab-btn" onclick="setOrderTab('pending',this)">Ожидают</button>
+    <button class="tab-btn" onclick="setOrderTab('approved',this)">Активные</button>
+    <button class="tab-btn" onclick="setOrderTab('delivered',this)">Доставлено</button>
+    <button class="tab-btn" onclick="setOrderTab('declined',this)">Отменено</button>
+  </div>
+  <div id="all-orders-list"></div>
+</div>
+
+<!-- ═══ SETTINGS ═══ -->
+<div id="pg-settings" class="page hidden">
+  <div class="hdr">
+    <div><div class="logo">AMBAR</div><div class="logo-sub">Управление</div></div>
+    <div class="hdr-right"><span class="admin-crown">👑</span></div>
+  </div>
+  <div class="sec-h">🏢 Офисы / выручка</div>
+  <div id="office-stats"></div>
+
+  <div class="sec-h">📤 Экспорт данных</div>
+  <div style="padding:0 14px 10px;display:flex;flex-direction:column;gap:8px">
+    <button style="background:var(--card);border:1px solid var(--border2);color:var(--gold);padding:13px 16px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;text-align:left" onclick="exportCSV()">📊 Скачать все заказы (CSV)</button>
+    <button style="background:var(--card);border:1px solid var(--border2);color:var(--gold);padding:13px 16px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;text-align:left" onclick="exportOperatorReport()">👥 Отчёт по операторам (CSV)</button>
+  </div>
+
+  <div class="sec-h">🚫 Заблокированные</div>
+  <div id="bans-list"></div>
+</div>
+
+<!-- NAV -->
+<div class="bnav">
+  <button class="nb on" id="nb-overview" onclick="go('overview')"><i>📊</i><span>Обзор</span></button>
+  <button class="nb" id="nb-operators" onclick="go('operators')"><i>👤</i><span>Операторы</span></button>
+  <button class="nb" id="nb-orders" onclick="go('orders')"><i>📦</i><span>Заказы</span></button>
+  <button class="nb" id="nb-settings" onclick="go('settings')"><i>⚙️</i><span>Управление</span></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tg = window.Telegram?.WebApp || null;
+if(tg){tg.ready();tg.expand();tg.setHeaderColor&&tg.setHeaderColor('#07070E');tg.setBackgroundColor&&tg.setBackgroundColor('#07070E');}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allOrders = [];
+let allBans = {};
+let period = 'today';
+let opPeriod = 'today';
+let orderTab = 'all';
+
+// ── PAGES ─────────────────────────────────────────────────────────────────────
+const PAGES = ['overview','operators','orders','settings'];
+function go(p){
+  PAGES.forEach(id=>{
+    document.getElementById('pg-'+id)?.classList.toggle('hidden',id!==p);
+    document.getElementById('nb-'+id)?.classList.toggle('on',id===p);
+  });
+  if(p==='overview') buildOverview();
+  if(p==='operators') buildOperators();
+  if(p==='orders') buildOrders();
+  if(p==='settings') buildSettings();
+}
+
+// ── PERIOD HELPERS ────────────────────────────────────────────────────────────
+function getStartDate(p){
+  const now = new Date();
+  if(p==='today') return now.toISOString().slice(0,10);
+  if(p==='week'){const d=new Date(now);d.setDate(d.getDate()-6);return d.toISOString().slice(0,10);}
+  if(p==='month'){const d=new Date(now);d.setDate(1);return d.toISOString().slice(0,10);}
+  if(p==='year'){return now.getFullYear()+'-01-01';}
+  return '2000-01-01';
+}
+
+function filterByPeriod(orders, p){
+  const start = getStartDate(p);
+  return orders.filter(o=>(o.timestamp||'') >= start);
+}
+
+function setPeriod(p, btn){
+  period=p;
+  document.querySelectorAll('#period-row .pchip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildOverview();
+}
+function setOpPeriod(p, btn){
+  opPeriod=p;
+  document.querySelectorAll('#op-period-row .pchip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildOperators();
+}
+function setOrderTab(t, btn){
+  orderTab=t;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildOrders();
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────────────────────
+function buildOverview(){
+  const orders = filterByPeriod(allOrders, period);
+  const delivered = orders.filter(o=>o.status==='delivered');
+  const totalRev = delivered.reduce((s,o)=>s+(o.total||0),0);
+  const totalTips = delivered.reduce((s,o)=>s+(o.tip||0),0);
+  const avgOrder = delivered.length ? Math.round(totalRev/delivered.length) : 0;
+
+  document.getElementById('rev-stats').innerHTML=`
+    <div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-val big">${totalRev}<small> AED</small></div><div class="stat-lbl">Выручка</div></div>
+    <div class="stat-card"><div class="stat-icon">🎁</div><div class="stat-val">${totalTips}<small> AED</small></div><div class="stat-lbl">Чаевые</div></div>
+    <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-val">${avgOrder}<small> AED</small></div><div class="stat-lbl">Средний чек</div></div>
+    <div class="stat-card gold"><div class="stat-icon">💎</div><div class="stat-val">${totalRev+totalTips}<small> AED</small></div><div class="stat-lbl">Всего с чаевыми</div></div>
+  `;
+
+  document.getElementById('ord-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val">${orders.length}</div><div class="stat-lbl">Всего заказов</div></div>
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val">${delivered.length}</div><div class="stat-lbl">Доставлено</div></div>
+    <div class="stat-card"><div class="stat-icon">🟡</div><div class="stat-val">${orders.filter(o=>o.status==='pending').length}</div><div class="stat-lbl">Ожидают</div></div>
+    <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-val">${orders.filter(o=>o.status==='declined').length}</div><div class="stat-lbl">Отменено</div></div>
+  `;
+
+  buildDailyChart();
+  buildTopProducts(orders);
+}
+
+function buildDailyChart(){
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    const dayOrds=allOrders.filter(o=>o.timestamp?.startsWith(k)&&o.status==='delivered');
+    const rev=dayOrds.reduce((s,o)=>s+(o.total||0),0);
+    days.push({label:d.toLocaleDateString('ru',{weekday:'short',day:'numeric'}),rev,cnt:dayOrds.length});
+  }
+  const maxRev=Math.max(...days.map(d=>d.rev),1);
+  document.getElementById('daily-chart').innerHTML=days.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label">${d.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.rev/maxRev*100)}%"></div></div>
+      <div class="bar-val">${d.rev}<span style="color:var(--muted);font-size:9px"> AED</span></div>
+    </div>
+  `).join('');
+}
+
+function buildTopProducts(orders){
+  const counts={};
+  const revs={};
+  orders.filter(o=>o.status==='delivered').forEach(o=>{
+    (o.items||[]).forEach(item=>{
+      counts[item.name]=(counts[item.name]||0)+item.qty;
+      revs[item.name]=(revs[item.name]||0)+(item.line_total||item.price*item.qty||0);
+    });
+  });
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const wrap=document.getElementById('top-products');
+  if(!sorted.length){wrap.innerHTML=`<div class="empty"><div>Нет данных</div></div>`;return;}
+  wrap.innerHTML=sorted.map(([name,qty],i)=>`
+    <div class="prod-row">
+      <div class="prod-rank">${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'][i]||i+1}</div>
+      <div style="flex:1;min-width:0"><div class="prod-name">${name}</div><div class="prod-rev">${revs[name]||0} AED</div></div>
+      <div class="prod-qty">×${qty}</div>
+    </div>
+  `).join('');
+}
+
+// ── OPERATORS ─────────────────────────────────────────────────────────────────
+function buildOperators(){
+  const orders = filterByPeriod(allOrders, opPeriod);
+  // Group by operator
+  const ops={};
+  orders.forEach(o=>{
+    const opId=o.operator_id;
+    const opName=o.operator_name||'Без оп.';
+    if(!opId) return;
+    if(!ops[opId]) ops[opId]={id:opId,name:opName,office:o.office_name||'—',accepted:0,delivered:0,declined:0,revenue:0,tips:0};
+    if(o.status==='approved'||o.status==='delivered') ops[opId].accepted++;
+    if(o.status==='delivered'){ops[opId].delivered++;ops[opId].revenue+=o.total||0;ops[opId].tips+=o.tip||0;}
+    if(o.status==='declined') ops[opId].declined++;
+  });
+  const list=Object.values(ops).sort((a,b)=>b.revenue-a.revenue);
+  const wrap=document.getElementById('op-cards');
+  if(!list.length){
+    wrap.innerHTML=`<div class="empty"><div class="empty-icon">👤</div><div>Нет данных за этот период</div></div>`;
+    return;
+  }
+  wrap.innerHTML=list.map(op=>`
+    <div class="op-card">
+      <div class="op-card-head">
+        <div class="op-avatar">${op.name[0]?.toUpperCase()||'?'}</div>
+        <div>
+          <div class="op-name">${op.name}</div>
+          <div class="op-office">🏢 ${op.office}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:18px;font-weight:700;color:var(--gold2)">${op.revenue} AED</div>
+          <div style="font-size:10px;color:var(--muted)">выручка</div>
+        </div>
+      </div>
+      <div class="op-stats">
+        <div class="op-stat"><div class="op-stat-val">${op.accepted}</div><div class="op-stat-lbl">Принято</div></div>
+        <div class="op-stat"><div class="op-stat-val">${op.delivered}</div><div class="op-stat-lbl">Доставлено</div></div>
+        <div class="op-stat"><div class="op-stat-val">${op.tips} AED</div><div class="op-stat-lbl">Чаевые</div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── ORDERS TAB ────────────────────────────────────────────────────────────────
+function buildOrders(){
+  let orders = [...allOrders].sort((a,b)=>(b.timestamp||'').localeCompare(a.timestamp||''));
+  if(orderTab!=='all') orders=orders.filter(o=>o.status===orderTab);
+  const STATUS_DOT={pending:'pending',approved:'approved',delivered:'delivered',declined:'declined'};
+  const STATUS_LBL={pending:'Ожидает',approved:'Принят',delivered:'Доставлен',declined:'Отменён'};
+  const wrap=document.getElementById('all-orders-list');
+  if(!orders.length){wrap.innerHTML=`<div class="empty"><div class="empty-icon">📦</div><div>Нет заказов</div></div>`;return;}
+  wrap.innerHTML=orders.slice(0,100).map(o=>`
+    <div class="order-row">
+      <div>
+        <div class="order-row-id">#${o.order_id}</div>
+        <div style="display:flex;align-items:center;margin-top:2px">
+          <span class="st-dot ${STATUS_DOT[o.status]||'pending'}"></span>
+          <span style="font-size:10px;color:var(--muted)">${STATUS_LBL[o.status]||o.status}</span>
+        </div>
+      </div>
+      <div class="order-row-info">
+        <div class="order-row-name">${o.customer_name||'—'}</div>
+        <div class="order-row-meta">${(o.timestamp||'').slice(0,16).replace('T',' ')} · ${o.office_name||'—'}</div>
+      </div>
+      <div class="order-row-total">${o.total||0}<span style="font-size:9px;color:var(--muted)"> AED</span></div>
+    </div>
+  `).join('');
+}
+
+// ── SETTINGS / OFFICES ────────────────────────────────────────────────────────
+function buildSettings(){
+  // Office breakdown
+  const offices={};
+  allOrders.filter(o=>o.status==='delivered').forEach(o=>{
+    const n=o.office_name||'—';
+    if(!offices[n]) offices[n]={cnt:0,rev:0};
+    offices[n].cnt++;offices[n].rev+=o.total||0;
+  });
+  const sorted=Object.entries(offices).sort((a,b)=>b[1].rev-a[1].rev);
+  document.getElementById('office-stats').innerHTML=sorted.length?
+    sorted.map(([name,s])=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border2)">
+        <div><div style="font-size:13px;font-weight:600">🏢 ${name}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${s.cnt} заказов</div></div>
+        <div style="font-size:15px;font-weight:700;color:var(--gold2)">${s.rev} AED</div>
+      </div>
+    `).join('')
+    : `<div class="empty"><div>Нет данных</div></div>`;
+
+  // Bans
+  const bans=Object.entries(allBans);
+  document.getElementById('bans-list').innerHTML=bans.length?
+    bans.map(([uid,b])=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border2)">
+        <div><div style="font-size:13px;font-weight:600">🚫 ID: ${uid}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${b.reason||'—'} · ${(b.banned_at||'').slice(0,10)}</div></div>
+        <button style="background:rgba(76,175,125,.1);border:1px solid rgba(76,175,125,.25);color:var(--green);padding:7px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer" onclick="unbanUser('${uid}')">Разбан</button>
+      </div>
+    `).join('')
+    : `<div class="empty" style="padding:20px"><div>Нет заблокированных</div></div>`;
+}
+
+function unbanUser(uid){
+  if(!confirm('Разблокировать пользователя '+uid+'?')) return;
+  sendAction({action:'admin_unban', user_id: uid});
+  delete allBans[uid];
+  buildSettings();
+  showToast('✅ Пользователь разблокирован','ok');
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────────
+function exportCSV(){
+  const rows=[['#','ID заказа','Клиент','Телефон','Адрес','Офис','Товары','Итого','Чаевые','Статус','Оператор','Дата']];
+  allOrders.forEach((o,i)=>{
+    const items=(o.items||[]).map(x=>`${x.name}x${x.qty}`).join('; ');
+    rows.push([i+1,o.order_id,o.customer_name||'',o.phone||'',o.address||'',o.office_name||'',items,o.total||0,o.tip||0,o.status,o.operator_name||'',o.timestamp?.slice(0,16)||'']);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  downloadFile('ambar_orders.csv','data:text/csv;charset=utf-8,'+encodeURIComponent('\uFEFF'+csv));
+}
+
+function exportOperatorReport(){
+  const ops={};
+  allOrders.forEach(o=>{
+    if(!o.operator_id) return;
+    const n=o.operator_name||'Неизвестный';
+    if(!ops[o.operator_id]) ops[o.operator_id]={name:n,accepted:0,delivered:0,declined:0,revenue:0,tips:0};
+    if(['approved','delivered'].includes(o.status)) ops[o.operator_id].accepted++;
+    if(o.status==='delivered'){ops[o.operator_id].delivered++;ops[o.operator_id].revenue+=o.total||0;ops[o.operator_id].tips+=o.tip||0;}
+    if(o.status==='declined') ops[o.operator_id].declined++;
+  });
+  const rows=[['ID','Имя','Принято','Доставлено','Отклонено','Выручка AED','Чаевые AED']];
+  Object.entries(ops).forEach(([id,o])=>rows.push([id,o.name,o.accepted,o.delivered,o.declined,o.revenue,o.tips]));
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  downloadFile('ambar_operators.csv','data:text/csv;charset=utf-8,'+encodeURIComponent('\uFEFF'+csv));
+}
+
+function downloadFile(name, dataUri){
+  const a=document.createElement('a');a.href=dataUri;a.download=name;a.click();
+}
+
+// ── DATA RECEIVE ──────────────────────────────────────────────────────────────
+function receiveData(data){
+  if(data.orders) allOrders = data.orders;
+  if(data.bans)   allBans   = data.bans;
+  const p = window.location.pathname;
+  buildOverview();
+}
+
+function sendAction(payload){
+  if(tg?.sendData){try{tg.sendData(JSON.stringify(payload));}catch(e){console.warn(e);}}
+  else console.log('ADMIN ACTION:', payload);
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let _tt;
+function showToast(msg,type=''){
+  clearTimeout(_tt);
+  const t=document.getElementById('toast');
+  t.className='toast';t.textContent=msg;
+  setTimeout(()=>{t.className='toast'+(type?' '+type:'')+' show';},16);
+  _tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  // Request initial data from bot
+  sendAction({action:'admin_data_request'});
+
+  // Listen for bot messages
+  window.addEventListener('message', e=>{
+    try{ const d=JSON.parse(e.data); if(d.type==='admin_data') receiveData(d); }catch(e2){}
+  });
+
+  // Load demo/cached data
+  try{
+    const raw=localStorage.getItem('ambar_admin_data');
+    if(raw){ const d=JSON.parse(raw); receiveData(d); }
+  }catch(e){}
+
+  buildOverview();
+
+  if(tg?.MainButton){
+    tg.MainButton.setText('↻ Обновить данные');
+    tg.MainButton.show();
+    tg.MainButton.onClick(()=>sendAction({action:'admin_data_request'}));
+  }
+});
+</script>
+</body>
+</html>
