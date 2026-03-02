@@ -214,18 +214,23 @@ function go(p){
 }
 
 // ── DATA LOAD ─────────────────────────────────────────────────────────────────
+const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
+
 async function loadOrders(){
-  // In real deploy: fetch from your server API. 
-  // Here we use tg.sendData to request data, and listen for response via tg events.
-  // For demo: try to load from localStorage (synced by bot via webhook or shared storage)
+  // Try fetching live orders.json from GitHub (push orders.json to repo to sync)
   try {
-    const raw = localStorage.getItem('ambar_op_orders');
-    if(raw) allOrders = JSON.parse(raw);
-  } catch(e){}
-  
-  // Send a sync request to the bot so it can push fresh data
-  if(tg?.sendData){
-    try{ tg.sendData(JSON.stringify({action:'op_sync', operator_id: opId})); }catch(e){}
+    const res = await fetch(ORDERS_URL + '?t=' + Date.now());
+    if(res.ok){
+      const data = await res.json();
+      allOrders = Object.values(data);
+      localStorage.setItem('ambar_op_orders', JSON.stringify(allOrders));
+    }
+  } catch(e){
+    // Fallback to localStorage cache
+    try {
+      const raw = localStorage.getItem('ambar_op_orders');
+      if(raw) allOrders = JSON.parse(raw);
+    } catch(e2){}
   }
 
   const now = new Date().toLocaleTimeString('ru');
