@@ -217,19 +217,22 @@ function go(p){
 const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
 
 async function loadOrders(){
+  // First load from cache so UI is instant
+  try {
+    const raw = localStorage.getItem('ambar_op_orders');
+    if(raw) allOrders = JSON.parse(raw);
+  } catch(e){}
+
+  // Then fetch fresh from GitHub (orders.json must be pushed to the repo)
   try {
     const res = await fetch(ORDERS_URL + '?t=' + Date.now());
-    if(res.ok){
-      const data = await res.json();
-      allOrders = Object.values(data);
+    const text = await res.text();
+    if(text.trim().startsWith('{') || text.trim().startsWith('[')) {
+      const data = JSON.parse(text);
+      allOrders = Array.isArray(data) ? data : Object.values(data);
       localStorage.setItem('ambar_op_orders', JSON.stringify(allOrders));
     }
-  } catch(e){
-    try {
-      const raw = localStorage.getItem('ambar_op_orders');
-      if(raw) allOrders = JSON.parse(raw);
-    } catch(e2){}
-  }
+  } catch(e){ /* use cache */ }
 
   const now = new Date().toLocaleTimeString('ru');
   document.getElementById('new-upd').textContent = 'Обновлено: '+now;
@@ -412,23 +415,23 @@ function acceptOrder(oid, cid, e){
 function confirmAccept(oid, cid, eta, e){
   e?.stopPropagation();
   sendAction({action:'op_accept', order_id:oid, customer_id:cid, eta, operator_id:opId, operator_name:opName});
-  updateLocalOrder(oid,{status:'approved',eta,operator_id:opId,updated_at:new Date().toISOString()});
   showToast(`✅ Заказ #${oid} принят — ${eta} мин`,'ok');
+  renderNewOrders(); renderActiveOrders(); buildDash(); updateBadges();
 }
 
 function declineOrder(oid, cid, e){
   e?.stopPropagation();
   if(!confirm(`Отклонить заказ #${oid}?`)) return;
   sendAction({action:'op_decline', order_id:oid, customer_id:cid, operator_id:opId});
-  updateLocalOrder(oid,{status:'declined',updated_at:new Date().toISOString()});
   showToast(`❌ Заказ #${oid} отклонён`,'err');
+  renderNewOrders(); renderActiveOrders(); buildDash(); updateBadges();
 }
 
 function markDelivered(oid, cid, e){
   e?.stopPropagation();
   sendAction({action:'op_delivered', order_id:oid, customer_id:cid, operator_id:opId});
-  updateLocalOrder(oid,{status:'delivered',updated_at:new Date().toISOString()});
-  showToast(`✅ Заказ #${oid} доставлен`,'ok');
+  showToast(`🏁 Заказ #${oid} доставлен`,'ok');
+  renderActiveOrders(); renderHistory(); buildDash(); updateBadges();
 }
 
 function openMap(lat, lon){
@@ -442,13 +445,25 @@ function updateLocalOrder(oid, kv){
   updateBadges();
 }
 
-function sendAction(payload){
-  // sendData sends to bot AND closes the app - this is correct for operator actions
-  // Operator reopens the panel after each accept/decline/deliver
-  if(tg?.sendData){
-    try{ tg.sendData(JSON.stringify(payload)); }catch(e){ console.warn('sendData',e); }
-  } else {
-    console.log('ACTION:', payload);
+const OP_BOT_TOKEN = '8542741262:AAErc5B7BQ_U9mfjylcDpQyNWttdVDzupIc';
+
+async function sendAction(payload){
+  // Send via Telegram API as a message to ourselves — bot picks it up via polling
+  updateLocalOrder(payload.order_id, {
+    status: payload.action==='op_accept'?'approved':payload.action==='op_decline'?'declined':'delivered',
+    eta: payload.eta,
+    operator_id: payload.operator_id,
+    operator_name: payload.operator_name,
+    updated_at: new Date().toISOString()
+  });
+  if(opId){
+    try{
+      await fetch('https://api.telegram.org/bot'+OP_BOT_TOKEN+'/sendMessage',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:opId, text:'🤖ACTION:'+JSON.stringify(payload)})
+      });
+    }catch(e){ console.warn('sendAction:',e); }
   }
 }
 
