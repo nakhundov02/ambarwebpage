@@ -122,7 +122,7 @@ button,input,select{font-family:'Outfit',sans-serif;outline:none}
 <div id="pg-overview" class="page">
   <div class="hdr">
     <div><div class="logo">AMBAR</div><div class="logo-sub">Admin Panel</div></div>
-    <div class="hdr-right"><span class="admin-crown">👑</span></div>
+    <div class="hdr-right"><button id="refresh-btn" onclick="fetchOrders()" style="background:#C9A96E;color:#07070E;border:none;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:13px;">↻ Обновить</button></div>
   </div>
   
   <!-- Period selector -->
@@ -478,9 +478,10 @@ function receiveData(data){
   buildOverview();
 }
 
-function sendAction(payload){
-  if(tg?.sendData){try{tg.sendData(JSON.stringify(payload));}catch(e){console.warn(e);}}
-  else console.log('ADMIN ACTION:', payload);
+async function sendAction(payload){
+  // Admin panel never uses sendData (it closes the app)
+  // Unban is handled locally; use /unban command in bot for server-side sync
+  console.log('ADMIN ACTION:', payload);
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
@@ -496,36 +497,42 @@ function showToast(msg,type=''){
 // ── BOOT ──────────────────────────────────────────────────────────────────────
 const ORDERS_URL = 'https://raw.githubusercontent.com/nakhundov02/ambarwebpage/main/orders.json';
 
-async function fetchData(){
+async function fetchOrders(){
+  const btn = document.getElementById('refresh-btn');
+  if(btn){ btn.textContent='⟳ Загрузка...'; btn.disabled=true; }
   try {
     const res = await fetch(ORDERS_URL + '?t=' + Date.now());
     if(res.ok){
       const data = await res.json();
       allOrders = Object.values(data);
-      localStorage.setItem('ambar_admin_orders', JSON.stringify(allOrders));
+      localStorage.setItem('ambar_admin_cache', JSON.stringify(allOrders));
     }
   } catch(e){
     try {
-      const raw = localStorage.getItem('ambar_admin_orders');
+      const raw = localStorage.getItem('ambar_admin_cache');
       if(raw) allOrders = JSON.parse(raw);
     } catch(e2){}
   }
+  if(btn){ btn.textContent='↻ Обновить'; btn.disabled=false; }
   buildOverview();
+  if(document.getElementById('pg-operators')?.classList.contains('hidden')===false) buildOperators();
+  if(document.getElementById('pg-orders')?.classList.contains('hidden')===false) buildOrders();
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
+  // Load cached data immediately so UI isn't blank
   try{
-    const raw=localStorage.getItem('ambar_admin_orders');
+    const raw=localStorage.getItem('ambar_admin_cache');
     if(raw) allOrders = JSON.parse(raw);
   }catch(e){}
 
   buildOverview();
-  fetchData();
+  fetchOrders(); // fetch fresh data in background
 
   if(tg?.MainButton){
     tg.MainButton.setText('↻ Обновить');
     tg.MainButton.show();
-    tg.MainButton.onClick(()=>fetchData());
+    tg.MainButton.onClick(()=>fetchOrders());
   }
 });
 </script>
