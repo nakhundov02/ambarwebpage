@@ -1,0 +1,344 @@
+{
+  "AMB606556": {
+    "order_id": "AMB606556",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "damac hills 2",
+    "location": {
+      "lat": 24.978580101432627,
+      "lon": 55.3850955268493
+    },
+    "items": [
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 2,
+        "line_total": 560
+      },
+      {
+        "id": "p6",
+        "name": "Jack Daniel's",
+        "price": 200,
+        "qty": 1,
+        "line_total": 200
+      }
+    ],
+    "item_lines": "  • Hennessy VS ×2 = 560 AED",
+    "tip": 0,
+    "total": 760,
+    "lang": "ru",
+    "office_id": "office_central",
+    "office_name": "Ambar",
+    "status": "declined",
+    "timestamp": "2026-02-24T10:35:30.958420",
+    "subtotal": 760,
+    "updated_at": "2026-02-24T10:36:30.097462"
+  },
+  "AMB386316": {
+    "order_id": "AMB386316",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "Heriot watt uni",
+    "location": {
+      "lat": 25.101487955600295,
+      "lon": 55.16186141300654
+    },
+    "items": [
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      },
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      }
+    ],
+    "item_lines": "  • Hennessy VS ×1 = 280 AED\n  • Hennessy VSOP ×1 = 380 AED",
+    "tip": 0,
+    "total": 660,
+    "lang": "ru",
+    "office_id": "office_central",
+    "office_name": "Ambar",
+    "status": "pending",
+    "timestamp": "2026-02-24T10:43:06.265312"
+  },
+  "AMB178934": {
+    "order_id": "AMB178934",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "Heriot watt uni",
+    "location": {
+      "lat": 25.101867058121595,
+      "lon": 55.16240543468224
+    },
+    "items": [
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      },
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      }
+    ],
+    "item_lines": "  • Hennessy VS ×1 = 280 AED\n  • Hennessy VSOP ×1 = 380 AED",
+    "tip": 0,
+    "total": 660,
+    "lang": "ru",
+    "office_id": "office_central",
+    "office_name": "Ambar",
+    "status": "pending",
+    "timestamp": "2026-02-24T12:36:18.759440"
+  },
+  "AMB389770": {
+    "order_id": "AMB389770",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "heriotwtat",
+    "location": {
+      "lat": 25.101867058174353,
+      "lon": 55.162405434610896
+    },
+    "items": [
+      {
+        "id": "p12",
+        "name": "Bacardi Blanca",
+        "price": 150,
+        "qty": 2,
+        "line_total": 300
+      },
+      {
+        "id": "p8",
+        "name": "Belvedere",
+        "price": 290,
+        "qty": 5,
+        "line_total": 1450
+      }
+    ],
+    "item_lines": "  • Hennessy VSOP ×2 = 760 AED",
+    "tip": 0,
+    "total": 1750,
+    "lang": "ru",
+    "office_id": "office_central",
+    "office_name": "Ambar",
+    "status": "pending",
+    "timestamp": "2026-02-24T12:39:49.661465",
+    "subtotal": 1750
+  },
+  "AMB1938365": {
+    "order_id": "AMB1938365",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "5204500548",
+    "address": "damac hills 2",
+    "location": {
+      "lat": 24.978534111497183,
+      "lon": 55.38510267190748
+    },
+    "items": [
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      }
+    ],
+    "item_lines": "  • Hennessy VSOP ×1 = 380 AED",
+    "tip": 0,
+    "total": 380,
+    "lang": "ru",
+    "office_id": "office_south",
+    "office_name": "Ambar — Юг",
+    "status": "pending",
+    "timestamp": "2026-02-24T20:52:17.981770"
+  },
+  "AMB1001602": {
+    "order_id": "AMB1001602",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "9710505845824",
+    "address": "🏠 House — Mimosa Cluster, Villa 63",
+    "location": {
+      "lat": 24.978588848396857,
+      "lon": 55.38508469342011
+    },
+    "items": [
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      },
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      }
+    ],
+    "item_lines": "  • Hennessy VS ×1 = 280 AED\n  • Hennessy VSOP ×1 = 380 AED",
+    "tip": 0,
+    "total": 660,
+    "lang": "en",
+    "office_id": "office_north",
+    "office_name": "Ambar North",
+    "status": "pending",
+    "timestamp": "2026-02-24T23:23:21.681505"
+  },
+  "AMB7063632": {
+    "order_id": "AMB7063632",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "📌 Other — Heriotwatt University",
+    "location": {
+      "lat": 0,
+      "lon": 0
+    },
+    "items": [
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      }
+    ],
+    "item_lines": "  • Hennessy VS ×1 = 280 AED",
+    "tip": 0,
+    "total": 280,
+    "lang": "en",
+    "office_id": "office_central",
+    "office_name": "Ambar Central",
+    "status": "pending",
+    "timestamp": "2026-02-25T09:24:23.371932"
+  },
+  "AMB7126628": {
+    "order_id": "AMB7126628",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "0505845824",
+    "address": "🏠 House — Mimosa Cluster, Villa 63",
+    "location": {
+      "lat": 24.978588848396857,
+      "lon": 55.38508469342011
+    },
+    "items": [
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      },
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      }
+    ],
+    "item_lines": "  • Hennessy VSOP ×1 = 380 AED\n  • Hennessy VS ×1 = 280 AED",
+    "tip": 0,
+    "total": 660,
+    "lang": "ru",
+    "office_id": "office_north",
+    "office_name": "Ambar North",
+    "status": "pending",
+    "timestamp": "2026-02-25T09:25:26.402953"
+  },
+  "AMB7588241": {
+    "order_id": "AMB7588241",
+    "customer_id": 686932322,
+    "customer_name": "xxx",
+    "username": "trxxxman1a",
+    "phone": "552552828285",
+    "address": "📌 Другое — Five guys",
+    "location": {
+      "lat": 0,
+      "lon": 0
+    },
+    "items": [
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      }
+    ],
+    "item_lines": "  • Hennessy VSOP ×1 = 380 AED",
+    "tip": 0,
+    "total": 380,
+    "lang": "ru",
+    "office_id": "office_north",
+    "office_name": "Ambar North",
+    "status": "pending",
+    "timestamp": "2026-02-25T09:33:07.849113"
+  },
+  "AMB9860341": {
+    "order_id": "AMB9860341",
+    "customer_id": 982022772,
+    "customer_name": "S1lent 002",
+    "username": "s1lent002",
+    "phone": "5804580127518",
+    "address": "📌 Другое — ОПИСАНИЕ / ОРИЕНТИР: Emirates hills  Enterance",
+    "location": {
+      "lat": 0,
+      "lon": 0
+    },
+    "items": [
+      {
+        "id": "p2",
+        "name": "Hennessy VSOP",
+        "price": 380,
+        "qty": 1,
+        "line_total": 380
+      },
+      {
+        "id": "p1",
+        "name": "Hennessy VS",
+        "price": 280,
+        "qty": 1,
+        "line_total": 280
+      }
+    ],
+    "item_lines": "  • Hennessy VSOP ×1 = 380 AED\n  • Hennessy VS ×1 = 280 AED",
+    "tip": 0,
+    "total": 660,
+    "lang": "ru",
+    "office_id": "office_central",
+    "office_name": "Ambar Central",
+    "status": "pending",
+    "timestamp": "2026-02-25T10:11:00.157756"
+  }
+}
